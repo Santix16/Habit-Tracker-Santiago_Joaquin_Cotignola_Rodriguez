@@ -1,0 +1,76 @@
+{
+  "habits": [
+    {
+      "id": "1",
+      "name": "Ejercicio Diario",
+      "category": "Salud",
+      "goalType": "daily",
+      "status": "In Progress",
+      "notes": "Hacer al menos 30 minutos de ejercicio.",
+      "progress": [
+        {
+          "date": "2025-10-01",
+          "status": "Completed"
+        },
+        {
+          "date": "2025-10-02",
+          "status": "Missed"
+        },
+        {
+          "date": "2025-10-03",
+          "status": "Skipped"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Leer Libros",
+      "category": "Desarrollo Personal",
+      "goalType": "weekly",
+      "status": "Paused",
+      "notes": "Leer al menos 3 capítulos por semana.",
+      "progress": [
+        {
+            "date": "2025-09-28",
+            "status": "Completed"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Meditación",
+      "category": "Salud Mental",
+      "goalType": "daily",
+      "status": "In Progress",
+      "notes": "Meditar al menos 10 minutos cada día.",
+      "progress": []
+    },
+    {
+      "id": "4",
+      "name": "Aprender un Nuevo Idioma",
+      "category": "Educación",
+      "goalType": "monthly",
+      "status": "Completed",
+      "notes": "Completar una unidad didáctica cada mes.",
+      "progress": [
+        {
+          "date": "2025-09-15",
+          "status": "Skipped"
+        },
+        {
+          "date": "2025-10-15",
+          "status": "Completed"
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "name": "Limpiar la Casa",
+      "category": "Hogar",
+      "goalType": "weekly",
+      "status": "In Progress",
+      "notes": "Realizar tareas de limpieza cada fin de semana.",
+      "progress": []
+    }
+  ]
+}

@@ -2,7 +2,6 @@
     "name": "my-angular-app",
     "version": "0.0.0",
     "main": "main.js",
-
     "build": {
         "appId": "org.iescamp.din.my-angular-app",
         "productName": "Mi Aplicación Angular",
@@ -22,7 +21,6 @@
             "AppImage"
         ]
     },
-
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
@@ -35,17 +33,16 @@
         "package-win": "ng build && electron-builder --win",
         "package-linux": "ng build && electron-builder --linux"
     },
-
     "prettier": {
         "printWidth": 100,
         "singleQuote": true,
         "overrides": [
-        {
-            "files": "*.html",
-            "options": {
-                "parser": "angular"
+            {
+                "files": "*.html",
+                "options": {
+                    "parser": "angular"
+                }
             }
-        }
         ]
     },
     "private": true,
@@ -56,6 +53,7 @@
         "@angular/forms": "^20.2.0",
         "@angular/platform-browser": "^20.2.0",
         "@angular/router": "^20.2.0",
+        "json-server": "^1.0.0-beta.3",
         "rxjs": "~7.8.0",
         "tslib": "^2.3.0",
         "zone.js": "~0.15.0"
@@ -76,5 +74,10 @@
         "npm-run-all": "^4.1.5",
         "typescript": "~5.9.2",
         "wait-on": "^8.0.4"
-    }
+    },
+    "description": "This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.8.",
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "commonjs"
 }
