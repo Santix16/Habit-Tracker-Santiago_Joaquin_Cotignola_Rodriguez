@@ -1,18 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HabitAddComponent } from './habit-add';
 
-import { HabitAdd } from './habit-add';
-
-describe('HabitAdd', () => {
-  let component: HabitAdd;
-  let fixture: ComponentFixture<HabitAdd>;
+describe('HabitAddComponent', () => {
+  let component: HabitAddComponent;
+  let fixture: ComponentFixture<HabitAddComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HabitAdd]
-    })
-    .compileComponents();
+      imports: [HabitAddComponent] // Para componentes standalone
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(HabitAdd);
+    fixture = TestBed.createComponent(HabitAddComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -21,3 +19,4 @@ describe('HabitAdd', () => {
     expect(component).toBeTruthy();
   });
 });
+

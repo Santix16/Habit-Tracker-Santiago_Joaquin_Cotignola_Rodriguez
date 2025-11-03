@@ -1,7 +1,7 @@
 import { HabitProgress } from './HabitProgress';
 
 export interface Habit {
-  id: string;
+  id?: string;
   name: string;
   category: string;
   goalType: 'daily' | 'weekly' | 'monthly';

@@ -1,1 +1,19 @@
-<p>habit-item works!</p>
+<mat-card appearance="outlined" class="h-100">
+  <mat-card-header>
+    <mat-card-title>{{ habit.name | titlecase }}</mat-card-title>
+    <mat-card-subtitle>{{ habit.category | titlecase }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p><strong>Objetivo:</strong> {{ habit.goalType | titlecase }}</p>
+    <p><strong>Estado:</strong> {{ habit.status }}</p>
+    <p *ngIf="habit.notes"><strong>Notas:</strong> {{ habit.notes }}</p>
+  </mat-card-content>
+
+  <mat-card-footer>
+    <p><strong>Progreso registrado:</strong> {{ habit.progress.length || 0 }} días</p>
+  </mat-card-footer>
+
+  <button class="btn btn-danger mt-2" (click)="deleteHabit()">Eliminar</button>
+</mat-card>
+
