@@ -1,1 +1,36 @@
-/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/purple-green.css';
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+/* Extras para Habit Tracker */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f6f5;
+}
+
+mat-toolbar {
+  background-color: #43a047;
+  color: white;
+}
+
+mat-card {
+  margin: 1rem;
+  border-radius: 12px;
+}
+
+button.mat-raised-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+button.mat-raised-button:hover {
+  background-color: #388e3c;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
