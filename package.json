@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@angular/material": "^20.2.11",
-    "bootstrap": "^5.3.8"
-  }
-}
