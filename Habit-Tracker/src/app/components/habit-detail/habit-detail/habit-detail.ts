@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { Habit } from '../../../interfaces/Habit';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'habit-detail',
@@ -20,7 +21,8 @@ import { Habit } from '../../../interfaces/Habit';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressBarModule
   ],
   templateUrl: './habit-detail.html',
   styleUrls: ['./habit-detail.css']

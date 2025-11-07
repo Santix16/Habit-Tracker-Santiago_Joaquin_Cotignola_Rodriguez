@@ -46,7 +46,7 @@
         <div class="progress-item" *ngFor="let prog of habit.progress; let i = index">
           <span>{{ prog.date }}</span>
           <span>{{ prog.status }}</span>
-          <button mat-stroked-button color="warn" (click)="deleteProgress(i)">Borrar</button>
+          <button mat-flat-button color="warn" (click)="deleteHabit()">Eliminar</button>
         </div>
       </div>
 

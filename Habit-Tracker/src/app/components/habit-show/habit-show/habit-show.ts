@@ -163,12 +163,12 @@ export class HabitsShow implements OnInit {
   }
   
   viewDetails(habit: Habit) {
-    this.selectedHabit = habit;
-  }
+  this.selectedHabit = habit;
+}
 
-  closeDetails() {
-    this.selectedHabit = null;
-  }
+closeDetails() {
+  this.selectedHabit = null;
+}
 
   /** 🔹 TrackBy seguro */
   trackById(index: number, habit: Habit): string | number {

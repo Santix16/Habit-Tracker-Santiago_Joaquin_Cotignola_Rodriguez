@@ -24,17 +24,8 @@ export class HabitItemComponent {
 
   constructor(private habitService: HabitService) {}
 
-  deleteHabit() {
-    if (!confirm('¿Estás seguro de querer eliminar este hábito?') || !this.habit.id) return;
-
-    this.habitService.deleteHabit(this.habit.id).subscribe({
-      next: () => this.onDelete.emit(this.habit),
-      error: (err) => console.error('Error al eliminar el hábito:', err)
-    });
-  }
-
-  viewDetails(habit: Habit) {
-    this.onViewDetails.emit(habit);
+  viewDetails() {
+    this.onViewDetails.emit(this.habit);
   }
 }
 
