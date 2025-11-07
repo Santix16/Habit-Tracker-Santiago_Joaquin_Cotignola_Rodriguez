@@ -13,7 +13,7 @@ import { HabitsShow } from './components/habit-show/habit-show/habit-show';
     FormsModule,
     MatToolbarModule,
     MatCardModule,
-    HabitsShow
+    HabitsShow,
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.css']

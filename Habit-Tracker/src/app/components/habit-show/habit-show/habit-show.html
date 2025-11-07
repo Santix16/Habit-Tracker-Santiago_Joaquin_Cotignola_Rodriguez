@@ -57,39 +57,67 @@
               placeholder="Detalles o recordatorios del hábito"></textarea>
   </div>
 
-  <button type="submit" class="btn btn-primary" [disabled]="!form.valid">
-    Crear Hábito
-  </button>
+  <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Crear habito</button>
 </form>
 
-<!-- 🔹 Barra de filtros y búsqueda -->
-<nav class="navbar navbar-light bg-light justify-content-between mt-3">
-  <div class="container-fluid">
-    <ul class="nav">
-      <li class="nav-item">
-        <a class="nav-link" href="#" (click)="orderByName()">Ordenar por nombre</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#" (click)="orderByProgress()">Ordenar por progreso</a>
-      </li>
-    </ul>
+<!-- 🔹 Filtros -->
+<div class="filters-container mt-3 mb-3 p-3 border rounded bg-light">
+  <h5>Filtros:</h5>
 
-    <form class="d-flex mb-0">
-      <input class="form-control me-2"
-             type="text"
-             [(ngModel)]="search"
-             name="search"
-             placeholder="Buscar hábito...">
-    </form>
+  <div class="row g-3 align-items-end">
+    <!-- Categoría -->
+    <div class="col-md-4">
+      <label class="form-label">Categoría</label>
+      <select class="form-select" [(ngModel)]="filterCategory">
+        <option value="">Todas</option>
+        <option *ngFor="let cat of getUniqueCategories()" [value]="cat">{{ cat }}</option>
+      </select>
+    </div>
+
+    <!-- Tipo -->
+    <div class="col-md-4">
+      <label class="form-label">Tipo</label>
+      <select class="form-select" [(ngModel)]="filterType">
+        <option value="">Todos</option>
+        <option *ngFor="let type of getUniqueTypes()" [value]="type">{{ type }}</option>
+      </select>
+    </div>
+
+    <!-- Limpiar filtros -->
+    <div class="col-md-4 text-end">
+      <button class="btn btn-outline-danger mt-2" (click)="clearFilters()">
+        Limpiar filtros
+      </button>
+    </div>
   </div>
-</nav>
+
+  <!-- Barra de búsqueda -->
+  <div class="mt-3">
+    <input type="text" class="form-control" [(ngModel)]="search" placeholder="Buscar hábito..." />
+  </div>
+</div>
 
 <!-- 🔹 Lista de hábitos -->
+ <div class="habit-list-container">
+  <div class="filter-buttons">
+    <h3>Ordenar por:</h3>
+    <button class="btn btn-outline-primary" (click)="orderBy('name')">Nombre</button>
+    <button class="btn btn-outline-primary" (click)="orderBy('category')">Categoría</button>
+    <button class="btn btn-outline-primary" (click)="orderBy('status')">Estado</button>
+  </div>
+
 <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mt-3">
   <div class="col"
        *ngFor="let habit of (habits | habitFilter:search); trackBy: trackById">
     <habit-item [habit]="habit" (onDelete)="deleteHabit(habit)"></habit-item>
   </div>
+
+  <habit-detail
+    *ngIf="selectedHabit"
+    [habit]="selectedHabit"
+    (onClose)="closeDetails()"
+    (onDelete)="deleteHabit($event)"
+  ></habit-detail>
 
   <!-- 🔹 Mensaje si no hay hábitos -->
   <div *ngIf="(habits | habitFilter:search).length === 0" class="mt-3 text-center">

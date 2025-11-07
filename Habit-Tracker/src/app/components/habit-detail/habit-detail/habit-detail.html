@@ -1,0 +1,62 @@
+<mat-card class="habit-detail">
+  <mat-card-header>
+    <mat-card-title>Detalles Hábito: "{{ habit.name }}"</mat-card-title>
+    <div class="actions">
+      <button mat-stroked-button color="primary" (click)="editHabit()">Editar</button>
+      <button mat-stroked-button color="warn" (click)="deleteHabit()">Borrar</button>
+    </div>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="info-section">
+      <div class="info-item"><strong>Tipo:</strong> {{ habit.goalType }}</div>
+      <div class="info-item"><strong>Categoría:</strong> {{ habit.category }}</div>
+      <div class="info-item"><strong>Estado:</strong> {{ habit.status }}</div>
+    </div>
+
+    <div class="notes">
+      <strong>Notas:</strong>
+      <p>{{ habit.notes || 'Sin notas' }}</p>
+    </div>
+
+    <div class="progress-section">
+      <h4>Progreso:</h4>
+
+      <form class="progress-form" (ngSubmit)="addProgress()">
+        <mat-form-field appearance="outline">
+          <mat-label>Fecha</mat-label>
+          <input matInput type="date" [(ngModel)]="newProgress.date" name="date" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Estado</mat-label>
+          <mat-select [(ngModel)]="newProgress.status" name="status">
+            <mat-option value="Completado">Completado</mat-option>
+            <mat-option value="En progreso">En progreso</mat-option>
+            <mat-option value="Pendiente">Pendiente</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-flat-button color="accent" type="submit">
+          Añadir progreso
+        </button>
+      </form>
+
+      <div class="progress-list" *ngIf="habit.progress.length > 0; else noProgress">
+        <div class="progress-item" *ngFor="let prog of habit.progress; let i = index">
+          <span>{{ prog.date }}</span>
+          <span>{{ prog.status }}</span>
+          <button mat-stroked-button color="warn" (click)="deleteProgress(i)">Borrar</button>
+        </div>
+      </div>
+
+      <ng-template #noProgress>
+        <p class="no-progress">Aún no hay registros de progreso.</p>
+      </ng-template>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    <button mat-button color="primary" (click)="close()">Cerrar</button>
+  </mat-card-actions>
+</mat-card>

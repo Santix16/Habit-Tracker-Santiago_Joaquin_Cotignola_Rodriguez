@@ -1,19 +1,52 @@
-<mat-card appearance="outlined" class="h-100">
+<mat-card class="habit-card" appearance="outlined">
   <mat-card-header>
     <mat-card-title>{{ habit.name | titlecase }}</mat-card-title>
     <mat-card-subtitle>{{ habit.category | titlecase }}</mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-content>
-    <p><strong>Objetivo:</strong> {{ habit.goalType | titlecase }}</p>
-    <p><strong>Estado:</strong> {{ habit.status }}</p>
-    <p *ngIf="habit.notes"><strong>Notas:</strong> {{ habit.notes }}</p>
+    <div class="habit-info">
+      <p><strong>Objetivo:</strong> {{ habit.goalType | titlecase }}</p>
+
+      <p>
+        <strong>Estado:</strong>
+        <span
+          [ngClass]="{
+            'status-inprogress': habit.status === 'In Progress',
+            'status-completed': habit.status === 'Completed',
+            'status-paused': habit.status === 'Paused'
+          }"
+        >
+          {{ habit.status }}
+        </span>
+      </p>
+
+      <p *ngIf="habit.notes">
+        <strong>Notas:</strong> {{ habit.notes }}
+      </p>
+    </div>
+
+    <!-- 🔹 Barra de progreso -->
+    <div class="progress-container" *ngIf="habit.progress?.length">
+      <p class="progress-label">
+        <strong>Progreso:</strong> {{ habit.progress.length }} días
+      </p>
+      <mat-progress-bar
+        mode="determinate"
+        [value]="(habit.progress.length / 30) * 100"
+      ></mat-progress-bar>
+    </div>
   </mat-card-content>
 
-  <mat-card-footer>
-    <p><strong>Progreso registrado:</strong> {{ habit.progress.length || 0 }} días</p>
-  </mat-card-footer>
+  <mat-divider></mat-divider>
 
-  <button class="btn btn-danger mt-2" (click)="deleteHabit()">Eliminar</button>
+  <mat-card-actions align="end" class="actions d-flex justify-content-between">
+    <!-- Botón Detalles -->
+    <button mat-flat-button color="accent" (click)="viewDetails(habit)">
+      Detalles
+    </button>
+  </mat-card-actions>
 </mat-card>
+
+
 

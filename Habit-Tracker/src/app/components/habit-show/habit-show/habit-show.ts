@@ -3,12 +3,20 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { catchError, of } from 'rxjs';
-
 import { Habit } from '../../../interfaces/Habit';
 import { HabitService } from '../../../services/habit.service';
 import { HabitFilterPipe } from '../../../pipes/habit-filter-pipe';
 import { HabitAddComponent } from '../../habit-add/habit-add/habit-add';
 import { HabitItemComponent } from '../../habit-item/habit-item/habit-item';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
+import { HabitDetailComponent } from '../../habit-detail/habit-detail/habit-detail';
+
 
 @Component({
   selector: 'app-habits-show',
@@ -19,15 +27,26 @@ import { HabitItemComponent } from '../../habit-item/habit-item/habit-item';
     MatCardModule,
     HabitFilterPipe,
     HabitAddComponent,
-    HabitItemComponent
+    HabitItemComponent,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatDividerModule,
+    HabitDetailComponent
   ],
   templateUrl: './habit-show.html',
   styleUrls: ['./habit-show.css']
 })
 export class HabitsShow implements OnInit {
   habits: Habit[] = [];
+  selectedHabit: Habit | null = null;
   search: string = '';
   newHabit: Habit = this.getEmptyHabit();
+  filterCategory: string = '';
+  filterType: string = '';
 
   constructor(private habitService: HabitService) {}
 
@@ -37,14 +56,15 @@ export class HabitsShow implements OnInit {
 
   /** 🔹 Cargar hábitos desde el servicio */
   loadHabits(): void {
-    this.habitService.getHabits()
+    this.habitService
+      .getHabits()
       .pipe(
         catchError(err => {
           console.error('Error cargando hábitos:', err);
           return of([]);
         })
       )
-      .subscribe(data => this.habits = data);
+      .subscribe(data => (this.habits = data));
   }
 
   /** 🔹 Crear un hábito vacío */
@@ -60,14 +80,15 @@ export class HabitsShow implements OnInit {
     };
   }
 
-  /** 🔹 Añadir hábito (desde formulario o subcomponente) */
+  /** 🔹 Añadir hábito */
   addHabit(nuevoHabit?: Habit): void {
     const habit = nuevoHabit || this.newHabit;
     if (!habit.name || !habit.category) return;
 
     habit.id = undefined;
 
-    this.habitService.addHabit(habit)
+    this.habitService
+      .addHabit(habit)
       .pipe(
         catchError(err => {
           console.error('Error al añadir hábito:', err);
@@ -86,7 +107,8 @@ export class HabitsShow implements OnInit {
   deleteHabit(habitToDelete: Habit): void {
     if (!habitToDelete.id) return;
 
-    this.habitService.deleteHabit(habitToDelete.id)
+    this.habitService
+      .deleteHabit(habitToDelete.id)
       .pipe(
         catchError(err => {
           console.error('Error al borrar hábito:', err);
@@ -98,18 +120,54 @@ export class HabitsShow implements OnInit {
       });
   }
 
-  /** 🔹 Ordenar por nombre */
-  orderByName(): void {
-    this.habits = [...this.habits].sort((a, b) =>
-      a.name.localeCompare(b.name)
-    );
+  /** 🔹 Obtener categorías únicas */
+  getUniqueCategories(): string[] {
+    return [...new Set(this.habits.map(h => h.category))];
   }
 
-  /** 🔹 Ordenar por progreso (según cantidad de registros) */
-  orderByProgress(): void {
-    this.habits = [...this.habits].sort(
-      (a, b) => b.progress.length - a.progress.length
-    );
+  /** 🔹 Obtener tipos únicos */
+  getUniqueTypes(): string[] {
+    return [...new Set(this.habits.map(h => h.goalType))];
+  }
+
+  /** 🔹 Limpiar filtros */
+  clearFilters(): void {
+    this.search = '';
+    this.filterCategory = '';
+    this.filterType = '';
+  }
+
+  /** 🔹 Filtrar hábitos */
+  filteredHabits(): Habit[] {
+    return this.habits.filter(habit => {
+      const matchesSearch = habit.name.toLowerCase().includes(this.search.toLowerCase());
+      const matchesCategory = !this.filterCategory || habit.category === this.filterCategory;
+      const matchesType = !this.filterType || habit.goalType === this.filterType;
+      return matchesSearch && matchesCategory && matchesType;
+    });
+  }
+
+  /** 🔹 Ordenar hábitos */
+  orderBy(criteria: string): void {
+    switch (criteria) {
+      case 'name':
+        this.habits.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case 'category':
+        this.habits.sort((a, b) => a.category.localeCompare(b.category));
+        break;
+      case 'status':
+        this.habits.sort((a, b) => a.status.localeCompare(b.status));
+        break;
+    }
+  }
+  
+  viewDetails(habit: Habit) {
+    this.selectedHabit = habit;
+  }
+
+  closeDetails() {
+    this.selectedHabit = null;
   }
 
   /** 🔹 TrackBy seguro */
@@ -117,4 +175,6 @@ export class HabitsShow implements OnInit {
     return habit.id ?? index;
   }
 }
+
+
 

@@ -71,6 +71,15 @@
       "status": "In Progress",
       "notes": "Realizar tareas de limpieza cada fin de semana.",
       "progress": []
+    },
+    {
+      "id": "1065",
+      "name": "gds",
+      "category": "dfgs",
+      "goalType": "daily",
+      "status": "In Progress",
+      "notes": "",
+      "progress": []
     }
   ]
 }
