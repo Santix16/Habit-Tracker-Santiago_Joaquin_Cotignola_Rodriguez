@@ -47,12 +47,18 @@ export class HabitsShow implements OnInit {
   newHabit: Habit = this.getEmptyHabit();
   filterCategory: string = '';
   filterType: string = '';
+  showNewHabitForm: boolean = false;
 
   constructor(private habitService: HabitService) {}
 
   ngOnInit(): void {
     this.loadHabits();
   }
+
+  toggleNewHabitForm() {
+    this.showNewHabitForm = !this.showNewHabitForm;
+  }
+
 
   /** 🔹 Cargar hábitos desde el servicio */
   loadHabits(): void {
@@ -82,26 +88,27 @@ export class HabitsShow implements OnInit {
 
   /** 🔹 Añadir hábito */
   addHabit(nuevoHabit?: Habit): void {
-    const habit = nuevoHabit || this.newHabit;
-    if (!habit.name || !habit.category) return;
+  const habit = nuevoHabit || this.newHabit;
+  if (!habit.name || !habit.category) return;
 
-    habit.id = undefined;
+  habit.id = undefined;
 
-    this.habitService
-      .addHabit(habit)
-      .pipe(
-        catchError(err => {
-          console.error('Error al añadir hábito:', err);
-          return of(null);
-        })
-      )
-      .subscribe(habitFromServer => {
-        if (habitFromServer) {
-          this.habits = [...this.habits, habitFromServer];
-          this.newHabit = this.getEmptyHabit();
-        }
-      });
-  }
+  this.habitService
+    .addHabit(habit)
+    .pipe(
+      catchError(err => {
+        console.error('Error al añadir hábito:', err);
+        return of(null);
+      })
+    )
+    .subscribe(habitFromServer => {
+      if (habitFromServer) {
+        this.habits = [...this.habits, habitFromServer];
+        this.newHabit = this.getEmptyHabit();
+        this.showNewHabitForm = false;
+      }
+    });
+}
 
   /** 🔹 Eliminar hábito */
   deleteHabit(habitToDelete: Habit): void {

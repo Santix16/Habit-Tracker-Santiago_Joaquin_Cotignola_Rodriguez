@@ -1,8 +1,13 @@
 <!-- Componente para agregar hábito -->
 <habit-add (onAdd)="addHabit($event)"></habit-add>
 
-<!-- Formulario manual para crear un hábito -->
-<form #form="ngForm" class="mt-4" (ngSubmit)="addHabit(newHabit)" novalidate>
+<!-- Botón para mostrar/ocultar formulario -->
+<button class="btn btn-success mb-3" (click)="toggleNewHabitForm()">
+  Nuevo hábito
+</button>
+
+<!-- Formulario manual solo visible si showNewHabitForm es true -->
+<form *ngIf="showNewHabitForm" #form="ngForm" class="mt-4" (ngSubmit)="addHabit(newHabit)" novalidate>
   <div class="mb-3">
     <label class="form-label">Nombre del hábito</label>
     <input type="text" class="form-control"
@@ -57,7 +62,7 @@
               placeholder="Detalles o recordatorios del hábito"></textarea>
   </div>
 
-  <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Crear habito</button>
+  <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Crear hábito</button>
 </form>
 
 <!-- 🔹 Filtros -->
