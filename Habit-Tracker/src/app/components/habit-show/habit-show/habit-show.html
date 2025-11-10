@@ -98,7 +98,7 @@
 </div>
 
 <!-- 🔹 Lista de hábitos -->
- <div class="habit-list-container">
+<div class="habit-list-container">
   <div class="filter-buttons">
     <h3>Ordenar por:</h3>
     <button class="btn btn-outline-primary" (click)="orderBy('name')">Nombre</button>
@@ -106,28 +106,29 @@
     <button class="btn btn-outline-primary" (click)="orderBy('status')">Estado</button>
   </div>
 
-<div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mt-3">
-  <div class="col" *ngFor="let habit of habits">
-    <habit-item
-      [habit]="habit"
-      (onViewDetails)="viewDetails($event)">
-    </habit-item>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mt-3">
+    <!-- Aquí usamos filteredHabits() para aplicar los filtros -->
+    <div class="col" *ngFor="let habit of filteredHabits() | habitFilter:search">
+      <habit-item
+        [habit]="habit"
+        (onViewDetails)="viewDetails($event)">
+      </habit-item>
+    </div>
   </div>
-</div>
 
-<!-- Panel de detalles -->
-<habit-detail
-  *ngIf="selectedHabit"
-  [habit]="selectedHabit"
-  (onClose)="closeDetails()"
-  (onDelete)="deleteHabit($event)">
-</habit-detail>
-
+  <!-- Panel de detalles -->
+  <habit-detail
+    *ngIf="selectedHabit"
+    [habit]="selectedHabit"
+    (onClose)="closeDetails()"
+    (onDelete)="deleteHabit($event)">
+  </habit-detail>
 
   <!-- 🔹 Mensaje si no hay hábitos -->
-  <div *ngIf="(habits | habitFilter:search).length === 0" class="mt-3 text-center">
+  <div *ngIf="(filteredHabits() | habitFilter:search).length === 0" class="mt-3 text-center">
     <h3>No hay hábitos registrados</h3>
     <p>Empieza agregando tu primer hábito con el formulario de arriba.</p>
   </div>
 </div>
+
 
