@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -7,8 +7,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
-import { Habit } from '../../../interfaces/Habit';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { ActivatedRoute } from '@angular/router';
+import { Habit } from '../../../interfaces/Habit';
+import { HabitService } from '../../../services/habit.service';
 
 @Component({
   selector: 'habit-detail',
@@ -27,13 +29,25 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
   templateUrl: './habit-detail.html',
   styleUrls: ['./habit-detail.css']
 })
-export class HabitDetailComponent {
+export class HabitDetail implements OnInit {
   @Input() habit!: Habit;
   @Output() onClose = new EventEmitter<void>();
   @Output() onDelete = new EventEmitter<Habit>();
   @Output() onEdit = new EventEmitter<Habit>();
 
   newProgress = { date: '', status: '' };
+
+  constructor(
+    private route: ActivatedRoute,
+    private habitService: HabitService
+  ) {}
+
+  ngOnInit() {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    if (!this.habit && id) {
+      this.habitService.getHabitById(String(id)).subscribe(h => (this.habit = h));
+    }
+  }
 
   addProgress() {
     if (this.newProgress.date && this.newProgress.status) {

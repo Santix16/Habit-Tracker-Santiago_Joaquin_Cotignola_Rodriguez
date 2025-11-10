@@ -8,11 +8,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
+import { RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'habit-item',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule, MatTooltipModule, MatProgressBarModule, MatDividerModule],
+  imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule, MatTooltipModule, MatProgressBarModule, MatDividerModule, RouterModule],
   templateUrl: './habit-item.html',
   styleUrls: ['./habit-item.css']
 })

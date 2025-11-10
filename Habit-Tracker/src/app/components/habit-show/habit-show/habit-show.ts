@@ -15,7 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
-import { HabitDetailComponent } from '../../habit-detail/habit-detail/habit-detail';
+import { HabitDetail } from '../../habit-detail/habit-detail/habit-detail';
 
 
 @Component({
@@ -35,7 +35,7 @@ import { HabitDetailComponent } from '../../habit-detail/habit-detail/habit-deta
     MatIconModule,
     MatTooltipModule,
     MatDividerModule,
-    HabitDetailComponent
+    HabitDetail
   ],
   templateUrl: './habit-show.html',
   styleUrls: ['./habit-show.css']

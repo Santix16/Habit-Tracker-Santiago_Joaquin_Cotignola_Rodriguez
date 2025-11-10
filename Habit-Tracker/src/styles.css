@@ -1,3 +1,4 @@
+/* Importar temas y Bootstrap */
 @import '@angular/material/prebuilt-themes/purple-green.css';
 @import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -29,8 +30,67 @@ button.mat-raised-button:hover {
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* Estilos de HabitDetailComponent (antes detail.css) */
+.habit-detail {
+  padding: 16px;
+  border-radius: 12px;
+  background-color: #fff;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.info-section {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.info-item {
+  flex: 1 1 30%;
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+
+.notes {
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.progress-section {
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+
+.progress-form {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  margin-bottom: 16px;
+}
+
+.progress-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progress-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f5f5f5;
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+.no-progress {
+  color: #888;
+  font-style: italic;
+}
