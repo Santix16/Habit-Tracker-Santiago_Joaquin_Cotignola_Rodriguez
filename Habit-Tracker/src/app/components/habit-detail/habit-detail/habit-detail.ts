@@ -64,8 +64,16 @@ export class HabitDetail implements OnInit {
   }
 
   deleteHabit() {
-    this.onDelete.emit(this.habit);
-  }
+  if (!confirm("¿Estás seguro de querer eliminar este hábito?") || !this.habit.id) return;
+
+  this.habitService.deleteHabit(this.habit.id).subscribe({
+    next: () => {
+      this.onDelete.emit(this.habit); // avisa al componente padre
+      this.close(); // cierra la pestaña de detalles
+    },
+    error: (err) => console.error('Error al borrar hábito:', err)
+  });
+}
 
   editHabit() {
     this.onEdit.emit(this.habit);

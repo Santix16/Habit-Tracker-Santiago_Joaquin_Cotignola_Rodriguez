@@ -6,7 +6,7 @@
 
   <mat-card-content>
     <div class="habit-info">
-      <p><strong>Objetivo:</strong> {{ habit.goalType | titlecase }}</p>
+      <p><strong>Tipo:</strong> {{ habit.goalType | titlecase }}</p>
 
       <p>
         <strong>Estado:</strong>
@@ -24,17 +24,12 @@
       <p *ngIf="habit.notes">
         <strong>Notas:</strong> {{ habit.notes }}
       </p>
-    </div>
 
-    <!-- 🔹 Barra de progreso -->
-    <div class="progress-container" *ngIf="habit.progress?.length">
-      <p class="progress-label">
-        <strong>Progreso:</strong> {{ habit.progress.length }} días
+      <p *ngIf="habit.progress?.length">
+        <strong>Último progreso:</strong>
+        {{ habit.progress[habit.progress.length - 1].date }} -
+        {{ habit.progress[habit.progress.length - 1].status }}
       </p>
-      <mat-progress-bar
-        mode="determinate"
-        [value]="(habit.progress.length / 30) * 100"
-      ></mat-progress-bar>
     </div>
   </mat-card-content>
 
@@ -46,6 +41,7 @@
     </button>
   </mat-card-actions>
 </mat-card>
+
 
 
 

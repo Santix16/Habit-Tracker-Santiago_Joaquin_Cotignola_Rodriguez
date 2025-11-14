@@ -29,6 +29,32 @@ export class HabitItemComponent {
   viewDetails() {
     this.onViewDetails.emit(this.habit);
   }
+
+  newProgress = { date: '', status: 'Completed' };
+
+addProgress() {
+  if (!this.newProgress.date || !this.newProgress.status) {
+    return;
+  }
+  this.habit.progress.push({
+    date: this.newProgress.date,
+    status: this.newProgress.status as 'Completed' | 'Missed' | 'Skipped'
+  });
+  this.newProgress = { date: '', status: 'Completed' };
+}
+
+deleteProgress(index: number) {
+  this.habit.progress.splice(index, 1);
+}
+
+deleteHabit() {
+  if (!this.habit.id || !confirm("¿Estás seguro de querer eliminar este hábito?")) return;
+
+  this.habitService.deleteHabit(this.habit.id).subscribe({
+    next: () => this.onDelete.emit(this.habit),
+    error: (err) => console.error('Error al borrar hábito:', err)
+  });
+}
 }
 
 

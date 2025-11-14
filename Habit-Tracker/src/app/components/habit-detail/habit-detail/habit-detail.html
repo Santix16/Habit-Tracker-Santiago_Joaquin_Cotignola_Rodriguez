@@ -19,34 +19,38 @@
       <p>{{ habit.notes || 'Sin notas' }}</p>
     </div>
 
-    <div class="progress-section">
-      <h4>Progreso:</h4>
+    <!-- 🔹 Sección añadir progreso -->
+    <div class="progress-form-container">
+  <h4>Añadir progreso</h4>
+  <form class="progress-form" (ngSubmit)="addProgress()">
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha</mat-label>
+      <input matInput type="date" [(ngModel)]="newProgress.date" name="date" />
+    </mat-form-field>
 
-      <form class="progress-form" (ngSubmit)="addProgress()">
-        <mat-form-field appearance="outline">
-          <mat-label>Fecha</mat-label>
-          <input matInput type="date" [(ngModel)]="newProgress.date" name="date" />
-        </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Estado</mat-label>
+      <mat-select [(ngModel)]="newProgress.status" name="status">
+        <mat-option value="Completado">Completado</mat-option>
+        <mat-option value="En progreso">En progreso</mat-option>
+        <mat-option value="Pendiente">Pendiente</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Estado</mat-label>
-          <mat-select [(ngModel)]="newProgress.status" name="status">
-            <mat-option value="Completado">Completado</mat-option>
-            <mat-option value="En progreso">En progreso</mat-option>
-            <mat-option value="Pendiente">Pendiente</mat-option>
-          </mat-select>
-        </mat-form-field>
+    <button mat-flat-button color="accent" type="submit">
+      Añadir progreso
+    </button>
+  </form>
+  </div>
 
-        <button mat-flat-button color="accent" type="submit">
-          Añadir progreso
-        </button>
-      </form>
-
+    <!-- 🔹 Historial de progreso -->
+    <div class="progress-section mt-3">
+      <h4>Historial de Progreso</h4>
       <div class="progress-list" *ngIf="habit.progress.length > 0; else noProgress">
         <div class="progress-item" *ngFor="let prog of habit.progress; let i = index">
           <span>{{ prog.date }}</span>
           <span>{{ prog.status }}</span>
-          <button mat-flat-button color="warn" (click)="deleteHabit()">Eliminar</button>
+          <button mat-flat-button color="warn" (click)="deleteProgress(i)">Eliminar</button>
         </div>
       </div>
 
@@ -60,3 +64,4 @@
     <button mat-button color="primary" (click)="close()">Cerrar</button>
   </mat-card-actions>
 </mat-card>
+
