@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { Habit } from '../../../interfaces/Habit';
 
 @Component({
   selector: 'app-edit-habit',
@@ -21,19 +22,20 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class EditHabit {
 
-  @Input() habit: any;
+  @Input() habit!: Habit;
   @Output() onClose = new EventEmitter<void>();
+  @Output() onSave = new EventEmitter<Habit>();
 
   constructor() {}
 
   save() {
-    // Aquí ya guardas con tu servicio si quieres
-    this.onClose.emit();
+    this.onSave.emit(this.habit); 
   }
 
   cancel() {
-    this.onClose.emit();
+    this.onClose.emit(); 
   }
 }
+
 
 

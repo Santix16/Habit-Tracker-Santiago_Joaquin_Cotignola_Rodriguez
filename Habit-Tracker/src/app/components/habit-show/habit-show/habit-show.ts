@@ -194,6 +194,18 @@ closeDetails() {
     this.editingHabit = null;
   }
 
+saveHabit(updatedHabit: Habit) {
+  const index = this.habits.findIndex(h => h.id === updatedHabit.id);
+  if (index > -1) this.habits[index] = updatedHabit;
+
+  if (this.selectedHabit?.id === updatedHabit.id) {
+    this.selectedHabit = updatedHabit;
+  }
+
+  this.editingHabit = null;
+}
+
+
 }
 
 

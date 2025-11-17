@@ -121,24 +121,25 @@
     </div>
   </div>
 
-<!-- 🔹 Modal de detalle -->
-<div class="fullscreen-backdrop" *ngIf="selectedHabit">
-  <div class="fullscreen-content">
-    <habit-detail
-      [habit]="selectedHabit"
-      (onClose)="closeDetails()"
-      (onDelete)="deleteHabit($event)"
-      (onEdit)="openEdit($event)">
-    </habit-detail>
+ <!-- Modal de detalle -->
+  <div class="fullscreen-backdrop" *ngIf="selectedHabit">
+    <div class="fullscreen-content">
+      <habit-detail
+        [habit]="selectedHabit"
+        (onClose)="closeDetails()"
+        (onDelete)="deleteHabit($event)"
+        (onEdit)="openEdit($event)">
+      </habit-detail>
+    </div>
   </div>
-</div>
 
-<!-- 🔹 Modal de edición -->
-<div class="fullscreen-backdrop" *ngIf="editingHabit">
+  <!-- Modal de edición -->
+  <div class="fullscreen-backdrop" *ngIf="editingHabit">
   <div class="fullscreen-content">
-    <app-edit-habit
-      [habit]="editingHabit"
-      (onClose)="closeEdit()">
+    <app-edit-habit 
+       [habit]="editingHabit" 
+       (onClose)="closeEdit()" 
+       (onSave)="saveHabit($event)">
     </app-edit-habit>
   </div>
 </div>

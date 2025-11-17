@@ -6,13 +6,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Habit } from '../../../interfaces/Habit';
 import { HabitService } from '../../../services/habit.service';
 import { RouterModule } from '@angular/router';
-
 
 @Component({
   selector: 'habit-detail',
@@ -25,7 +23,6 @@ import { RouterModule } from '@angular/router';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatIconModule,
     MatProgressBarModule,
     RouterModule
   ],
@@ -38,12 +35,9 @@ export class HabitDetail implements OnInit {
   @Output() onDelete = new EventEmitter<Habit>();
   @Output() onEdit = new EventEmitter<Habit>();
 
-  newProgress = { date: '', status: '' };
+  newProgress = { date: '', status: 'Completed' };
 
-  constructor(
-    private route: ActivatedRoute,
-    private habitService: HabitService
-  ) {}
+  constructor(private route: ActivatedRoute, private habitService: HabitService) {}
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -62,28 +56,22 @@ export class HabitDetail implements OnInit {
     }
   }
 
-  deleteProgress(index: number) {
-    this.habit.progress.splice(index, 1);
-  }
+  deleteProgress(index: number) { this.habit.progress.splice(index, 1); }
 
   deleteHabit() {
-  if (!confirm("¿Estás seguro de querer eliminar este hábito?") || !this.habit.id) return;
-
-  this.habitService.deleteHabit(this.habit.id).subscribe({
-    next: () => {
-      this.onDelete.emit(this.habit); // avisa al componente padre
-      this.close(); // cierra la pestaña de detalles
-    },
-    error: (err) => console.error('Error al borrar hábito:', err)
-  });
-}
-
-  editHabit() {
-    this.onEdit.emit(this.habit);
+    if (!confirm('¿Estás seguro de querer eliminar este hábito?') || !this.habit.id) return;
+    this.habitService.deleteHabit(this.habit.id).subscribe({
+      next: () => {
+        this.onDelete.emit(this.habit);
+        this.close();
+      },
+      error: err => console.error('Error al borrar hábito:', err)
+    });
   }
 
-  close() {
-    this.onClose.emit();
-  }
+  editHabit() { this.onEdit.emit(this.habit); }
+
+  close() { this.onClose.emit(); }
 }
+
 
