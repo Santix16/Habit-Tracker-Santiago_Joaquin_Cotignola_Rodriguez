@@ -52,6 +52,7 @@ export class HabitsShow implements OnInit {
   filterType: string = '';
   showNewHabitForm: boolean = false;
   editingHabit: any = null;
+  creationError: string = '';
 
   constructor(private habitService: HabitService) {}
 
@@ -90,29 +91,34 @@ export class HabitsShow implements OnInit {
     };
   }
 
-  /** 🔹 Añadir hábito */
   addHabit(nuevoHabit?: Habit): void {
   const habit = nuevoHabit || this.newHabit;
-  if (!habit.name || !habit.category) return;
+
+  // Verificación de campos obligatorios
+  if (!habit.name || !habit.category || !habit.goalType || !habit.status) {
+    this.creationError = 'Debes completar todos los campos obligatorios para crear un hábito.';
+    return;
+  }
 
   habit.id = undefined;
+  this.creationError = ''; 
 
-  this.habitService
-    .addHabit(habit)
-    .pipe(
-      catchError(err => {
-        console.error('Error al añadir hábito:', err);
-        return of(null);
-      })
-    )
-    .subscribe(habitFromServer => {
-      if (habitFromServer) {
-        this.habits = [...this.habits, habitFromServer];
-        this.newHabit = this.getEmptyHabit();
-        this.showNewHabitForm = false;
-      }
-    });
+  this.habitService.addHabit(habit).pipe(
+    catchError(err => {
+      console.error('Error al añadir hábito:', err);
+      this.creationError = 'No se pudo conectar con el servidor. Revisa tu conexión o intenta más tarde.';
+      return of(null);
+    })
+  ).subscribe(habitFromServer => {
+    if (habitFromServer) {
+      this.habits = [...this.habits, habitFromServer];
+      this.newHabit = this.getEmptyHabit();
+      this.showNewHabitForm = false;
+      this.creationError = ''; 
+    }
+  });
 }
+
 
   /** 🔹 Eliminar hábito */
   deleteHabit(habitToDelete: Habit): void {
@@ -203,6 +209,10 @@ saveHabit(updatedHabit: Habit) {
   }
 
   this.editingHabit = null;
+}
+
+closeError() {
+  this.creationError = '';
 }
 
 

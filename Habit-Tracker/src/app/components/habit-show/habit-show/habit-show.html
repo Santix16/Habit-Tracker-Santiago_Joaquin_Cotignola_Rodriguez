@@ -6,33 +6,35 @@
   Nuevo hábito
 </button>
 
-<!-- Formulario manual solo visible si showNewHabitForm es true -->
 <form *ngIf="showNewHabitForm" #form="ngForm" class="mt-4" (ngSubmit)="addHabit(newHabit)" novalidate>
+
+  <!-- Modal de error -->
+<div class="modal-backdrop" *ngIf="creationError">
+  <div class="modal-error">
+    <div class="modal-header">
+      <h2>Error al crear hábito</h2>
+      <button class="close-btn" (click)="closeError()">✖</button>
+    </div>
+    <div class="modal-body">
+      <p>{{ creationError }}</p>
+    </div>
+  </div>
+</div>
+
+  <!-- Campos del formulario -->
   <div class="mb-3">
-    <label class="form-label">Nombre del hábito</label>
-    <input type="text" class="form-control"
-           name="name"
-           [(ngModel)]="newHabit.name"
-           required maxlength="50"
-           placeholder="Ejemplo: Hacer ejercicio diario">
+    <label class="form-label">Nombre del hábito (obligatorio)</label>
+    <input type="text" class="form-control" name="name" [(ngModel)]="newHabit.name" required maxlength="50">
   </div>
 
   <div class="mb-3">
-    <label class="form-label">Categoría</label>
-    <input type="text" class="form-control"
-           name="category"
-           [(ngModel)]="newHabit.category"
-           required
-           placeholder="Ejemplo: Salud, Estudio, Hogar...">
+    <label class="form-label">Categoría (obligatorio)</label>
+    <input type="text" class="form-control" name="category" [(ngModel)]="newHabit.category" required>
   </div>
 
   <div class="mb-3">
     <label class="form-label">Tipo de objetivo</label>
-    <select class="form-select"
-            name="goalType"
-            [(ngModel)]="newHabit.goalType"
-            required>
-      <option value="" disabled selected>Selecciona un tipo</option>
+    <select class="form-select" name="goalType" [(ngModel)]="newHabit.goalType" required>
       <option value="daily">Diario</option>
       <option value="weekly">Semanal</option>
       <option value="monthly">Mensual</option>
@@ -41,11 +43,7 @@
 
   <div class="mb-3">
     <label class="form-label">Estado</label>
-    <select class="form-select"
-            name="status"
-            [(ngModel)]="newHabit.status"
-            required>
-      <option value="" disabled selected>Selecciona un estado</option>
+    <select class="form-select" name="status" [(ngModel)]="newHabit.status" required>
       <option value="In Progress">En progreso</option>
       <option value="Completed">Completado</option>
       <option value="Paused">Pausado</option>
@@ -54,16 +52,13 @@
 
   <div class="mb-3">
     <label class="form-label">Notas</label>
-    <textarea class="form-control"
-              name="notes"
-              [(ngModel)]="newHabit.notes"
-              maxlength="200"
-              rows="3"
-              placeholder="Detalles o recordatorios del hábito"></textarea>
+    <textarea class="form-control" name="notes" [(ngModel)]="newHabit.notes" maxlength="200" rows="3"></textarea>
   </div>
 
-  <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Crear hábito</button>
+  <!-- Botón siempre habilitado -->
+  <button type="submit" class="btn btn-primary">Crear hábito</button>
 </form>
+
 
 <!-- 🔹 Filtros -->
 <div class="filters-container mt-3 mb-3 p-3 border rounded bg-light">
