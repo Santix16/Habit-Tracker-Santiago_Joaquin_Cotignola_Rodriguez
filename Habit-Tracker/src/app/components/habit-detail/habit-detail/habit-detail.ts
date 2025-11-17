@@ -11,6 +11,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Habit } from '../../../interfaces/Habit';
 import { HabitService } from '../../../services/habit.service';
+import { RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'habit-detail',
@@ -24,7 +26,8 @@ import { HabitService } from '../../../services/habit.service';
     MatInputModule,
     MatSelectModule,
     MatIconModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    RouterModule
   ],
   templateUrl: './habit-detail.html',
   styleUrls: ['./habit-detail.css']

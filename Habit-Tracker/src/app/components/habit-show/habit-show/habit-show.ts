@@ -16,6 +16,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { HabitDetail } from '../../habit-detail/habit-detail/habit-detail';
+import { EditHabit } from '../../edit-habit/edit-habit/edit-habit';
+
 
 
 @Component({
@@ -35,7 +37,8 @@ import { HabitDetail } from '../../habit-detail/habit-detail/habit-detail';
     MatIconModule,
     MatTooltipModule,
     MatDividerModule,
-    HabitDetail
+    HabitDetail,
+    EditHabit
   ],
   templateUrl: './habit-show.html',
   styleUrls: ['./habit-show.css']
@@ -48,6 +51,7 @@ export class HabitsShow implements OnInit {
   filterCategory: string = '';
   filterType: string = '';
   showNewHabitForm: boolean = false;
+  editingHabit: any = null;
 
   constructor(private habitService: HabitService) {}
 
@@ -181,6 +185,15 @@ closeDetails() {
   trackById(index: number, habit: Habit): string | number {
     return habit.id ?? index;
   }
+
+  openEdit(habit: any) {
+  this.editingHabit = { ...habit }; // copia para edición segura
+  }
+
+  closeEdit() {
+    this.editingHabit = null;
+  }
+
 }
 
 
