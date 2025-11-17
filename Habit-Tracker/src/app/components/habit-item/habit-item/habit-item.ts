@@ -38,7 +38,7 @@ addProgress() {
   }
   this.habit.progress.push({
     date: this.newProgress.date,
-    status: this.newProgress.status as 'Completed' | 'Missed' | 'Skipped'
+    status: this.newProgress.status as 'In Progress' | 'Completed' | 'Paused'
   });
   this.newProgress = { date: '', status: 'Completed' };
 }

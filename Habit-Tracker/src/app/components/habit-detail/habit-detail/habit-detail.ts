@@ -41,20 +41,69 @@ export class HabitDetail implements OnInit {
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (!this.habit && id) {
-      this.habitService.getHabitById(String(id)).subscribe(h => (this.habit = h));
-    }
+  if (!this.habit && id) {
+    this.habitService.getHabitById(String(id)).subscribe(h => {
+      this.habit = h;
+      this.sortProgress();
+    });
+  } else if (this.habit) {
+    this.sortProgress();
+  }
   }
 
-  addProgress() {
-    if (this.newProgress.date && this.newProgress.status) {
-      this.habit.progress.push({
-        date: this.newProgress.date,
-        status: this.newProgress.status as 'Completed' | 'Missed' | 'Skipped'
-      });
-      this.newProgress = { date: '', status: 'Completed' };
-    }
+  dateError: string = '';
+
+addProgress() {
+  if (!this.newProgress.date || !this.newProgress.status) return;
+
+  if (!this.isValidDate(this.newProgress.date)) {
+    this.dateError = 'Fecha inválida.';
+    return;
   }
+
+  this.habit.progress.push({
+    date: this.newProgress.date,
+    status: this.newProgress.status as 'In Progress' | 'Completed' | 'Paused'
+  });
+
+  this.sortProgress();
+  this.newProgress = { date: '', status: 'In Progress' };
+  this.dateError = '';
+
+  this.newProgress = { date: '', status: 'Completado' };
+  this.dateError = '';
+}
+
+isValidDate(dateString: string): boolean {
+  const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+  const match = dateString.match(regex);
+  if (!match) return false;
+
+  const day = Number(match[1]);
+  const month = Number(match[2]);
+  const year = Number(match[3]);
+
+  if (month < 1 || month > 12) return false;
+
+  const daysInMonth = [
+    31,
+    (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0) ? 29 : 28,
+    31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+  ];
+
+  return day >= 1 && day <= daysInMonth[month - 1];
+}
+
+  sortProgress() {
+  this.habit.progress.sort((a, b) => {
+    const [dayA, monthA, yearA] = a.date.split('/').map(Number);
+    const [dayB, monthB, yearB] = b.date.split('/').map(Number);
+    const dateA = new Date(yearA, monthA - 1, dayA);
+    const dateB = new Date(yearB, monthB - 1, dayB);
+    return dateB.getTime() - dateA.getTime(); // descendente
+  });
+}
+
 
   deleteProgress(index: number) { this.habit.progress.splice(index, 1); }
 

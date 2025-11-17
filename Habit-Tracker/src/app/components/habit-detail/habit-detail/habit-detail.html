@@ -22,28 +22,32 @@
     </div>
 
     <!-- 🔹 Sección añadir progreso -->
-    <div class="progress-form-container">
+<div class="progress-form-container">
   <h4>Añadir progreso</h4>
   <form class="progress-form" (ngSubmit)="addProgress()">
     <mat-form-field appearance="outline">
-      <mat-label>Fecha</mat-label>
-      <input matInput type="date" [(ngModel)]="newProgress.date" name="date" />
+      <mat-label>Fecha (dd/mm/yyyy)</mat-label>
+      <input matInput type="text" [(ngModel)]="newProgress.date" name="date"/>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label>Estado</mat-label>
-      <mat-select [(ngModel)]="newProgress.status" name="status">
-        <mat-option value="Completado">Completado</mat-option>
-        <mat-option value="En progreso">En progreso</mat-option>
-        <mat-option value="Pendiente">Pendiente</mat-option>
-      </mat-select>
-    </mat-form-field>
+  <mat-label>Estado</mat-label>
+  <mat-select [(ngModel)]="newProgress.status" name="status">
+    <mat-option value="In Progress">En progreso</mat-option>
+    <mat-option value="Completed">Completado</mat-option>
+    <mat-option value="Paused">Pausado</mat-option>
+  </mat-select>
+</mat-form-field>
+
 
     <button mat-flat-button color="accent" type="submit">
       Añadir progreso
     </button>
   </form>
-  </div>
+
+  <p *ngIf="dateError" class="error-message">{{ dateError }}</p>
+</div>
+
 
     <!-- 🔹 Historial de progreso -->
     <div class="progress-section mt-3">
