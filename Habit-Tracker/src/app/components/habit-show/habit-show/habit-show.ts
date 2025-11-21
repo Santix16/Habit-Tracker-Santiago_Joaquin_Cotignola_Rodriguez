@@ -53,6 +53,8 @@ export class HabitsShow implements OnInit {
   showNewHabitForm: boolean = false;
   editingHabit: any = null;
   creationError: string = '';
+  orderCriteria: string = '';
+  orderDirection: 'asc' | 'desc' = 'asc';
 
   constructor(private habitService: HabitService) {}
 
@@ -165,18 +167,22 @@ export class HabitsShow implements OnInit {
   }
 
   /** 🔹 Ordenar hábitos */
+  /** 🔹 Orden ascendente/descendente */
   orderBy(criteria: string): void {
-    switch (criteria) {
-      case 'name':
-        this.habits.sort((a, b) => a.name.localeCompare(b.name));
-        break;
-      case 'category':
-        this.habits.sort((a, b) => a.category.localeCompare(b.category));
-        break;
-      case 'status':
-        this.habits.sort((a, b) => a.status.localeCompare(b.status));
-        break;
+    if (this.orderCriteria === criteria) {
+      this.orderDirection = this.orderDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.orderCriteria = criteria;
+      this.orderDirection = 'asc';
     }
+
+    this.habits.sort((a, b) => {
+      const valA = (a as any)[criteria] || '';
+      const valB = (b as any)[criteria] || '';
+      if (valA < valB) return this.orderDirection === 'asc' ? -1 : 1;
+      if (valA > valB) return this.orderDirection === 'asc' ? 1 : -1;
+      return 0;
+    });
   }
 
   viewDetails(habit: Habit) {
@@ -214,7 +220,6 @@ saveHabit(updatedHabit: Habit) {
 closeError() {
   this.creationError = '';
 }
-
 
 }
 

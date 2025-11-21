@@ -13,6 +13,7 @@ import { HabitService } from '../../../services/habit.service';
 import { RouterModule } from '@angular/router';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'habit-detail',
@@ -28,7 +29,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatProgressBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    RouterModule
+    RouterModule,
+    DatePipe
   ],
   templateUrl: './habit-detail.html',
   styleUrls: ['./habit-detail.css']
