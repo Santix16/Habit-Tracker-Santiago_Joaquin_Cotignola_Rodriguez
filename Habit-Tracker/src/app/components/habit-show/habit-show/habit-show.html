@@ -8,12 +8,12 @@
 
 <form *ngIf="showNewHabitForm" #form="ngForm" class="mt-4" (ngSubmit)="addHabit(newHabit)" novalidate>
 
-  <!-- Modal de error -->
+<!-- Modal de error -->
 <div class="modal-backdrop" *ngIf="creationError">
   <div class="modal-error">
     <div class="modal-header">
       <h2>Error al crear hábito</h2>
-      <button class="close-btn" (click)="closeError()">✖</button>
+      <button type="button" class="close-btn" (click)="closeError()">✖</button>
     </div>
     <div class="modal-body">
       <p>{{ creationError }}</p>
@@ -131,9 +131,9 @@
   <!-- Modal de edición -->
   <div class="fullscreen-backdrop" *ngIf="editingHabit">
   <div class="fullscreen-content">
-    <app-edit-habit 
-       [habit]="editingHabit" 
-       (onClose)="closeEdit()" 
+    <app-edit-habit
+       [habit]="editingHabit"
+       (onClose)="closeEdit()"
        (onSave)="saveHabit($event)">
     </app-edit-habit>
   </div>

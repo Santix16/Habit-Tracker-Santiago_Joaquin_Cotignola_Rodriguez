@@ -11,6 +11,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Habit } from '../../../interfaces/Habit';
 import { HabitService } from '../../../services/habit.service';
 import { RouterModule } from '@angular/router';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'habit-detail',
@@ -24,6 +26,8 @@ import { RouterModule } from '@angular/router';
     MatInputModule,
     MatSelectModule,
     MatProgressBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     RouterModule
   ],
   templateUrl: './habit-detail.html',
@@ -36,76 +40,65 @@ export class HabitDetail implements OnInit {
   @Output() onEdit = new EventEmitter<Habit>();
 
   newProgress = { date: '', status: 'Completed' };
+  dateError: string = '';
 
   constructor(private route: ActivatedRoute, private habitService: HabitService) {}
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-  if (!this.habit && id) {
-    this.habitService.getHabitById(String(id)).subscribe(h => {
-      this.habit = h;
+
+    if (!this.habit && id) {
+      this.habitService.getHabitById(String(id)).subscribe(h => {
+        this.habit = h;
+        this.sortProgress();
+      });
+    } else if (this.habit) {
       this.sortProgress();
+    }
+  }
+
+  // ✅ Validar solo que la fecha no sea futura
+  validateDate(date: string): boolean {
+    if (!date) return false;
+
+    const selected = new Date(date);
+    const today = new Date();
+
+    selected.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    return selected <= today; //
+  }
+
+  addProgress() {
+    if (!this.newProgress.date || !this.newProgress.status) return;
+
+    if (!this.validateDate(this.newProgress.date)) {
+      this.dateError = 'La fecha no puede ser futura.';
+      return;
+    }
+
+    this.habit.progress.push({
+      date: this.newProgress.date,
+      status: this.newProgress.status as 'In Progress' | 'Completed' | 'Paused'
     });
-  } else if (this.habit) {
+
     this.sortProgress();
+    this.newProgress = { date: '', status: 'In Progress' };
+    this.dateError = '';
   }
-  }
-
-  dateError: string = '';
-
-addProgress() {
-  if (!this.newProgress.date || !this.newProgress.status) return;
-
-  if (!this.isValidDate(this.newProgress.date)) {
-    this.dateError = 'Fecha inválida.';
-    return;
-  }
-
-  this.habit.progress.push({
-    date: this.newProgress.date,
-    status: this.newProgress.status as 'In Progress' | 'Completed' | 'Paused'
-  });
-
-  this.sortProgress();
-  this.newProgress = { date: '', status: 'In Progress' };
-  this.dateError = '';
-
-  this.newProgress = { date: '', status: 'Completado' };
-  this.dateError = '';
-}
-
-isValidDate(dateString: string): boolean {
-  const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
-  const match = dateString.match(regex);
-  if (!match) return false;
-
-  const day = Number(match[1]);
-  const month = Number(match[2]);
-  const year = Number(match[3]);
-
-  if (month < 1 || month > 12) return false;
-
-  const daysInMonth = [
-    31,
-    (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0) ? 29 : 28,
-    31, 30, 31, 30, 31, 31, 30, 31, 30, 31
-  ];
-
-  return day >= 1 && day <= daysInMonth[month - 1];
-}
 
   sortProgress() {
-  this.habit.progress.sort((a, b) => {
-    const [dayA, monthA, yearA] = a.date.split('/').map(Number);
-    const [dayB, monthB, yearB] = b.date.split('/').map(Number);
-    const dateA = new Date(yearA, monthA - 1, dayA);
-    const dateB = new Date(yearB, monthB - 1, dayB);
-    return dateB.getTime() - dateA.getTime(); // descendente
-  });
-}
+    this.habit.progress.sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateB.getTime() - dateA.getTime();
+    });
+  }
 
-
-  deleteProgress(index: number) { this.habit.progress.splice(index, 1); }
+  deleteProgress(index: number) {
+    this.habit.progress.splice(index, 1);
+  }
 
   deleteHabit() {
     if (!confirm('¿Estás seguro de querer eliminar este hábito?') || !this.habit.id) return;
@@ -118,9 +111,14 @@ isValidDate(dateString: string): boolean {
     });
   }
 
-  editHabit() { this.onEdit.emit(this.habit); }
+  editHabit() {
+    this.onEdit.emit(this.habit);
+  }
 
-  close() { this.onClose.emit(); }
+  close() {
+    this.onClose.emit();
+  }
 }
+
 
 

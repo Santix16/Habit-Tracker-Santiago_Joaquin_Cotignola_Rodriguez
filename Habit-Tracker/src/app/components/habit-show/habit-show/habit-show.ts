@@ -101,7 +101,7 @@ export class HabitsShow implements OnInit {
   }
 
   habit.id = undefined;
-  this.creationError = ''; 
+  this.creationError = '';
 
   this.habitService.addHabit(habit).pipe(
     catchError(err => {
@@ -114,7 +114,7 @@ export class HabitsShow implements OnInit {
       this.habits = [...this.habits, habitFromServer];
       this.newHabit = this.getEmptyHabit();
       this.showNewHabitForm = false;
-      this.creationError = ''; 
+      this.creationError = '';
     }
   });
 }
@@ -178,7 +178,7 @@ export class HabitsShow implements OnInit {
         break;
     }
   }
-  
+
   viewDetails(habit: Habit) {
   this.selectedHabit = habit;
 }

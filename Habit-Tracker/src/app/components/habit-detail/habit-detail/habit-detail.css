@@ -107,6 +107,32 @@
   min-width: 80px;
 }
 
+/* --- FIX VISIBILIDAD TEXTO INPUT Y LABEL --- */
+
+.progress-form-container mat-form-field input {
+  color: #fff !important; /* texto blanco visible sobre fondo negro */
+}
+
+.progress-form-container mat-form-field .mat-mdc-floating-label {
+  color: #fff !important; /* label blanco */
+}
+
+mat-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+}
+
+.header-actions button {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
 
 
 
