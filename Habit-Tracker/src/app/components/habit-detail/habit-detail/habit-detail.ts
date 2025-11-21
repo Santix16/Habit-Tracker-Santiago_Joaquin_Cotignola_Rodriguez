@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe, formatDate } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,33 +7,37 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { ActivatedRoute } from '@angular/router';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Habit } from '../../../interfaces/Habit';
 import { HabitService } from '../../../services/habit.service';
-import { RouterModule } from '@angular/router';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, DateAdapter } from '@angular/material/core';
 import { MatNativeDateModule } from '@angular/material/core';
-import { DatePipe } from '@angular/common';
+
+
+export const MY_DATE_FORMATS = {
+  parse: { dateInput: 'dd/MM/yyyy' },
+  display: {
+    dateInput: 'dd/MM/yyyy',
+    monthYearLabel: 'MMMM yyyy',
+    dateA11yLabel: 'dd/MM/yyyy',
+    monthYearA11yLabel: 'MMMM yyyy',
+  },
+};
 
 @Component({
   selector: 'habit-detail',
   standalone: true,
   imports: [
-    CommonModule,
-    FormsModule,
-    MatCardModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatProgressBarModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    RouterModule,
-    DatePipe
+    CommonModule, FormsModule, MatCardModule, MatButtonModule, MatFormFieldModule,
+    MatInputModule, MatSelectModule, MatProgressBarModule, MatDatepickerModule, RouterModule, DatePipe, MatNativeDateModule
   ],
   templateUrl: './habit-detail.html',
-  styleUrls: ['./habit-detail.css']
+  styleUrls: ['./habit-detail.css'],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }
+  ]
 })
 export class HabitDetail implements OnInit {
   @Input() habit!: Habit;
@@ -41,10 +45,16 @@ export class HabitDetail implements OnInit {
   @Output() onDelete = new EventEmitter<Habit>();
   @Output() onEdit = new EventEmitter<Habit>();
 
-  newProgress = { date: '', status: 'Completed' };
+  newProgress = { date: new Date(), status: 'Completed' };
   dateError: string = '';
 
-  constructor(private route: ActivatedRoute, private habitService: HabitService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private habitService: HabitService,
+    private adapter: DateAdapter<any>
+  ) {
+    this.adapter.setLocale('es-ES'); // fuerza español
+  }
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -59,17 +69,13 @@ export class HabitDetail implements OnInit {
     }
   }
 
-  // ✅ Validar solo que la fecha no sea futura
-  validateDate(date: string): boolean {
+  validateDate(date: Date): boolean {
     if (!date) return false;
-
     const selected = new Date(date);
     const today = new Date();
-
     selected.setHours(0, 0, 0, 0);
     today.setHours(0, 0, 0, 0);
-
-    return selected <= today; //
+    return selected <= today;
   }
 
   addProgress() {
@@ -80,20 +86,22 @@ export class HabitDetail implements OnInit {
       return;
     }
 
+    const formattedDate = formatDate(this.newProgress.date, 'dd/MM/yyyy', 'es-ES');
+
     this.habit.progress.push({
-      date: this.newProgress.date,
+      date: formattedDate,
       status: this.newProgress.status as 'In Progress' | 'Completed' | 'Paused'
     });
 
     this.sortProgress();
-    this.newProgress = { date: '', status: 'In Progress' };
+    this.newProgress = { date: new Date(), status: 'In Progress' };
     this.dateError = '';
   }
 
   sortProgress() {
     this.habit.progress.sort((a, b) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
+      const dateA = new Date(a.date.split('/').reverse().join('-'));
+      const dateB = new Date(b.date.split('/').reverse().join('-'));
       return dateB.getTime() - dateA.getTime();
     });
   }
@@ -121,6 +129,7 @@ export class HabitDetail implements OnInit {
     this.onClose.emit();
   }
 }
+
 
 
 

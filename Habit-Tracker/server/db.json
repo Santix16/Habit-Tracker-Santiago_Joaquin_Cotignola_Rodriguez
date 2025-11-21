@@ -9,15 +9,15 @@
       "notes": "Hacer al menos 30 minutos de ejercicio.",
       "progress": [
         {
-          "date": "2025-10-01",
+          "date": "01/10/2025",
           "status": "Completed"
         },
         {
-          "date": "2025-10-02",
+          "date": "02/10/2025",
           "status": "Missed"
         },
         {
-          "date": "2025-10-03",
+          "date": "03/10/2025",
           "status": "Skipped"
         }
       ]
@@ -31,7 +31,7 @@
       "notes": "Leer al menos 3 capítulos por semana.",
       "progress": [
         {
-            "date": "2025-09-28",
+            "date": "28/09/2025",
             "status": "Completed"
         }
       ]
@@ -54,11 +54,11 @@
       "notes": "Completar una unidad didáctica cada mes.",
       "progress": [
         {
-          "date": "2025-09-15",
+          "date": "15/09/2025",
           "status": "Skipped"
         },
         {
-          "date": "2025-10-15",
+          "date": "15/10/2025",
           "status": "Completed"
         }
       ]
