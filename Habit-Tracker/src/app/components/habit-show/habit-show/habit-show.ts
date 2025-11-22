@@ -17,6 +17,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { HabitDetail } from '../../habit-detail/habit-detail/habit-detail';
 import { EditHabit } from '../../edit-habit/edit-habit/edit-habit';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 
@@ -56,7 +57,7 @@ export class HabitsShow implements OnInit {
   orderCriteria: string = '';
   orderDirection: 'asc' | 'desc' = 'asc';
 
-  constructor(private habitService: HabitService) {}
+  constructor(private habitService: HabitService, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.loadHabits();
@@ -97,18 +98,35 @@ export class HabitsShow implements OnInit {
   const habit = nuevoHabit || this.newHabit;
 
   // Verificación de campos obligatorios
-  if (!habit.name || !habit.category || !habit.goalType || !habit.status) {
-    this.creationError = 'Debes completar todos los campos obligatorios para crear un hábito.';
+  if (!habit.name || !habit.category) {
+    this.snackBar.open(
+      'Debes completar todos los campos obligatorios para crear un hábito.',
+      '', // sin botón de cerrar
+      {
+        duration: 3000, // 6 segundos
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        panelClass: ['toast-error-center'] // clase personalizada
+      }
+    );
     return;
   }
 
   habit.id = undefined;
-  this.creationError = '';
 
   this.habitService.addHabit(habit).pipe(
     catchError(err => {
       console.error('Error al añadir hábito:', err);
-      this.creationError = 'No se pudo conectar con el servidor. Revisa tu conexión o intenta más tarde.';
+      this.snackBar.open(
+        'No se pudo conectar con el servidor. Revisa tu conexión o intenta más tarde.',
+        '',
+        {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: ['toast-error-center']
+        }
+      );
       return of(null);
     })
   ).subscribe(habitFromServer => {
@@ -116,7 +134,6 @@ export class HabitsShow implements OnInit {
       this.habits = [...this.habits, habitFromServer];
       this.newHabit = this.getEmptyHabit();
       this.showNewHabitForm = false;
-      this.creationError = '';
     }
   });
 }

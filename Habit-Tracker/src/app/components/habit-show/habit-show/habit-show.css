@@ -132,6 +132,24 @@
   word-wrap: break-word;
 }
 
+.toast-error-center {
+  background-color: #f44336 !important;
+  color: white !important;
+  font-size: 2rem !important;
+  padding: 40px 60px !important;
+  border-radius: 12px !important;
+  max-width: 800px !important;
+  width: 90% !important;
+  text-align: center !important;
+
+  /* centrado vertical */
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+
+
 
 
 

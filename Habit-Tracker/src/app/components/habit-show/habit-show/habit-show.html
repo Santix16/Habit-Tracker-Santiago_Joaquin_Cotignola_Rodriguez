@@ -8,19 +8,6 @@
 
 <form *ngIf="showNewHabitForm" #form="ngForm" class="mt-4" (ngSubmit)="addHabit(newHabit)" novalidate>
 
-<!-- Modal de error -->
-<div class="modal-backdrop" *ngIf="creationError">
-  <div class="modal-error">
-    <div class="modal-header">
-      <h2>Error al crear hábito</h2>
-      <button type="button" class="close-btn" (click)="closeError()">✖</button>
-    </div>
-    <div class="modal-body">
-      <p>{{ creationError }}</p>
-    </div>
-  </div>
-</div>
-
   <!-- Campos del formulario -->
   <div class="mb-3">
     <label class="form-label">Nombre del hábito (obligatorio)</label>
@@ -60,7 +47,7 @@
 </form>
 
 
-<!-- 🔹 Filtros -->
+<!--  Filtros -->
 <div class="filters-container mt-3 mb-3 p-3 border rounded bg-light">
   <h5>Filtros:</h5>
 
@@ -97,7 +84,7 @@
   </div>
 </div>
 
-<!-- 🔹 Lista de hábitos -->
+<!-- Lista de hábitos -->
 <div class="habit-list-container">
   <div class="filter-buttons">
   <h3>Ordenar por:</h3>
