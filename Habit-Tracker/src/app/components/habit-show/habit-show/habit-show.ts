@@ -101,12 +101,12 @@ export class HabitsShow implements OnInit {
   if (!habit.name || !habit.category) {
     this.snackBar.open(
       'Debes completar todos los campos obligatorios para crear un hábito.',
-      '', // sin botón de cerrar
+      '',
       {
-        duration: 3000, // 6 segundos
+        duration: 3000,
         horizontalPosition: 'center',
         verticalPosition: 'top',
-        panelClass: ['toast-error-center'] // clase personalizada
+        panelClass: ['custom-snackbar']
       }
     );
     return;
@@ -124,7 +124,7 @@ export class HabitsShow implements OnInit {
           duration: 3000,
           horizontalPosition: 'center',
           verticalPosition: 'top',
-          panelClass: ['toast-error-center']
+          panelClass: ['custom-snackbar']
         }
       );
       return of(null);

@@ -65,7 +65,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(255, 255, 255, 1); /* fondo blanco */
+  background-color: rgba(255, 255, 255, 1);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -81,14 +81,13 @@
   padding: 16px;
 }
 
-/* Modal de error centrado y más grande */
 .modal-error {
-  background: #f44336; /* fondo rojo */
-  color: white; /* texto blanco */
-  padding: 40px 30px; /* más espacio interno */
+  background: #f44336;
+  color: white;
+  padding: 40px 30px;
   border-radius: 12px;
-  width: 85%; /* más ancho */
-  max-width: 700px; /* límite mayor */
+  width: 85%;
+  max-width: 700px;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -101,21 +100,18 @@
   gap: 20px;
 }
 
-/* Cabecera del modal */
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* Título del modal */
 .modal-header h2 {
   margin: 0;
   font-size: 1.8rem;
   font-weight: bold;
 }
 
-/* Botón cerrar del modal */
 .close-btn {
   background: transparent;
   border: none;
@@ -124,7 +120,6 @@
   cursor: pointer;
 }
 
-/* Texto dentro del modal */
 .modal-body p {
   margin: 0;
   font-size: 1.3rem;
@@ -132,21 +127,6 @@
   word-wrap: break-word;
 }
 
-.toast-error-center {
-  background-color: #f44336 !important;
-  color: white !important;
-  font-size: 2rem !important;
-  padding: 40px 60px !important;
-  border-radius: 12px !important;
-  max-width: 800px !important;
-  width: 90% !important;
-  text-align: center !important;
-
-  /* centrado vertical */
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-}
 
 
 

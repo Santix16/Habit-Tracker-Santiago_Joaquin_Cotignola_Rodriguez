@@ -94,3 +94,41 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   color: #888;
   font-style: italic;
 }
+
+/* Estilo global para snackbar centrado y personalizado */
+.custom-snackbar {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  background: transparent !important; /* sin fondo */
+  color: #d32f2f !important; /* rojo */
+  font-size: 6rem !important;   /* letras más grandes */
+  font-weight: 700 !important;
+  text-align: center !important;
+  padding: 40px 80px !important; /* aumenta el tamaño del recuadro */
+  min-width: 400px !important;
+  min-height: 150px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  box-shadow: none !important;
+  z-index: 99999 !important;
+}
+
+/* Asegura que el texto interno también se herede */
+.custom-snackbar .mat-simple-snackbar {
+  background: transparent !important;
+  color: inherit !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  padding: 0 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+
+
