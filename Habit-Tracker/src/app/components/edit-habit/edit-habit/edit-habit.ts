@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { Habit } from '../../../interfaces/Habit';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-edit-habit',
@@ -26,10 +27,17 @@ export class EditHabit {
   @Output() onClose = new EventEmitter<void>();
   @Output() onSave = new EventEmitter<Habit>();
 
-  constructor() {}
+  constructor(private snackBar: MatSnackBar) {}
 
   save() {
     this.onSave.emit(this.habit); 
+
+    this.snackBar.open('Hábito actualizado exitosamente', '', {
+    duration: 3000,
+    horizontalPosition: 'center',
+    verticalPosition: 'top',
+    panelClass: ['custom-snackbar']
+  });
   }
 
   cancel() {

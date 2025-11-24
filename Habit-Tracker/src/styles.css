@@ -101,7 +101,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
-  background: transparent !important; /* sin fondo */
+  background: #2fd353 !important; /* sin fondo */
   color: #d32f2f !important; /* rojo */
   font-size: 6rem !important;   /* letras más grandes */
   font-weight: 700 !important;

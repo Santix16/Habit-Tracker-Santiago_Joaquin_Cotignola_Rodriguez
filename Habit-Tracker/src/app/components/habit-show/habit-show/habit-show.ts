@@ -97,7 +97,6 @@ export class HabitsShow implements OnInit {
   addHabit(nuevoHabit?: Habit): void {
   const habit = nuevoHabit || this.newHabit;
 
-  // Verificación de campos obligatorios
   if (!habit.name || !habit.category) {
     this.snackBar.open(
       'Debes completar todos los campos obligatorios para crear un hábito.',
@@ -134,6 +133,14 @@ export class HabitsShow implements OnInit {
       this.habits = [...this.habits, habitFromServer];
       this.newHabit = this.getEmptyHabit();
       this.showNewHabitForm = false;
+
+      // 🔹 Toast de éxito
+      this.snackBar.open('Hábito creado exitosamente', '', {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        panelClass: ['custom-snackbar'] 
+      });
     }
   });
 }

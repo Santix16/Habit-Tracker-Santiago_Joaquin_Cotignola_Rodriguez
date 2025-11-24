@@ -13,6 +13,7 @@ import { Habit } from '../../../interfaces/Habit';
 import { HabitService } from '../../../services/habit.service';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, DateAdapter } from '@angular/material/core';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 export const MY_DATE_FORMATS = {
@@ -51,12 +52,15 @@ export class HabitDetail implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private habitService: HabitService,
-    private adapter: DateAdapter<any>
+    private adapter: DateAdapter<any>,
+    private snackBar: MatSnackBar
   ) {
     this.adapter.setLocale('es-ES'); // fuerza español
   }
 
   ngOnInit() {
+    if (!this.habit.progress) this.habit.progress = [];
+
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
     if (!this.habit && id) {
@@ -79,6 +83,8 @@ export class HabitDetail implements OnInit {
   }
 
   addProgress() {
+    if (!this.habit.progress) this.habit.progress = [];
+
     if (!this.newProgress.date || !this.newProgress.status) return;
 
     if (!this.validateDate(this.newProgress.date)) {
@@ -111,15 +117,24 @@ export class HabitDetail implements OnInit {
   }
 
   deleteHabit() {
-    if (!confirm('¿Estás seguro de querer eliminar este hábito?') || !this.habit.id) return;
-    this.habitService.deleteHabit(this.habit.id).subscribe({
-      next: () => {
-        this.onDelete.emit(this.habit);
-        this.close();
-      },
-      error: err => console.error('Error al borrar hábito:', err)
-    });
-  }
+  if (!confirm('¿Estás seguro de querer eliminar este hábito?') || !this.habit.id) return;
+
+  this.habitService.deleteHabit(this.habit.id).subscribe({
+    next: () => {
+      this.onDelete.emit(this.habit);
+      this.close();
+
+      // 🔹 Toast de éxito al eliminar
+      this.snackBar.open('Hábito eliminado exitosamente', '', {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        panelClass: ['custom-snackbar'] 
+      });
+    },
+    error: err => console.error('Error al borrar hábito:', err)
+  });
+}
 
   editHabit() {
     this.onEdit.emit(this.habit);

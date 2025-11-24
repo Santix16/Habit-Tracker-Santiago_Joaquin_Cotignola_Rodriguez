@@ -1,9 +1,9 @@
 <mat-card class="habit-detail">
+
+  <div class="close-btn-fixed" (click)="close()">✕</div>
+
   <mat-card-header>
     <mat-card-title>Detalles Hábito: "{{ habit.name }}"</mat-card-title>
-    <button mat-icon-button color="warn" class="close-btn" (click)="close()">
-      ✕
-    </button>
   </mat-card-header>
 
   <mat-card-content>

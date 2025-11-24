@@ -1,19 +1,52 @@
-/* Contenedor principal del detalle */
+/* Importar temas y Bootstrap */
+@import '@angular/material/prebuilt-themes/purple-green.css';
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+/* Fuente y fondo general */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f6f5;
+}
+
+mat-toolbar {
+  background-color: #43a047;
+  color: white;
+}
+
+mat-card {
+  margin: 1rem;
+  border-radius: 12px;
+}
+
+button.mat-raised-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+button.mat-raised-button:hover {
+  background-color: #388e3c;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* ================================
+   HABIT DETAIL STYLES
+================================ */
+
 .habit-detail {
   padding: 16px;
   border-radius: 12px;
   background-color: #fff;
-  color: #000; /* texto base negro */
+  position: relative; /* necesario para la X */
 }
 
-/* Acciones */
 .actions {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   margin-left: auto;
 }
 
-/* Sección de información */
 .info-section {
   display: flex;
   justify-content: space-between;
@@ -23,115 +56,125 @@
 
 .info-item {
   flex: 1 1 30%;
-  font-size: 0.95rem;
-  margin-bottom: 6px;
+  font-size: 1rem;
 }
 
-/* Notas */
 .notes {
   background: #f9f9f9;
-  padding: 10px;
+  padding: 12px;
   border-radius: 8px;
   margin-bottom: 20px;
-  color: #000; /* texto negro */
 }
 
-/* Sección de progreso */
+/* ================================
+   Cerrar (X) en la esquina absoluta
+================================ */
+
+.close-btn-fixed {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #d32f2f;
+  z-index: 10;
+}
+
+/* ================================
+   Añadir progreso
+================================ */
+
+.progress-form {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  margin-bottom: 16px;
+}
+
+/* Inputs visibles y uniformes */
+.habit-detail mat-form-field .mat-form-field-flex,
+.habit-detail mat-form-field .mat-input-element,
+.habit-detail mat-select,
+.habit-detail input {
+  background: white !important;
+  color: black !important;
+}
+
+.error-message {
+  color: red;
+  margin-top: -10px;
+}
+
+/* ================================
+   Historial de progreso
+================================ */
+
 .progress-section {
   border-top: 1px solid #ddd;
-  padding-top: 10px;
+  padding-top: 12px;
 }
 
-/* Contenedor del formulario de progreso */
-.progress-form-container {
-  background-color: #e0f7fa; /* color de fondo claro */
-  padding: 16px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-  color: #000; /* texto negro */
-}
-
-/* Título de la sección de progreso */
-.progress-form-container h4 {
-  margin-bottom: 12px;
-  color: #000;
-}
-
-/* Inputs y selects de Angular Material con fondo negro y texto blanco */
-.progress-form-container mat-form-field {
-  width: 100%;
-}
-
-.progress-form-container input,
-.progress-form-container mat-select .mat-select-value-text,
-.progress-form-container mat-option {
-  background-color: #000 !important; /* fondo negro */
-  color: #fff !important; /* texto blanco */
-}
-
-/* Label y placeholder dentro de mat-form-field */
-.progress-form-container mat-form-field .mat-form-field-label,
-.progress-form-container .mat-form-field-placeholder {
-  color: #fff !important;
-}
-
-/* Botón Añadir progreso */
-.progress-form-container button {
-  background-color: #4caf50;
-  color: #fff;
-  border-radius: 4px;
-  min-width: 80px;
-}
-
-/* Lista de progresos */
 .progress-list {
-  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .progress-item {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 150px 1fr auto; /* fecha - estado - botón */
   align-items: center;
+  padding: 8px 12px;
   background: #f5f5f5;
   border-radius: 6px;
-  padding: 6px 10px;
-  margin-bottom: 6px;
-  color: #000;
 }
 
-/* Botón eliminar progreso */
-.progress-item button {
-  background-color: #f44336; /* rojo */
-  color: #fff;
-  border-radius: 4px;
-  min-width: 80px;
+.progress-item span {
+  white-space: nowrap;
+  font-size: 15px;
 }
 
-/* --- FIX VISIBILIDAD TEXTO INPUT Y LABEL --- */
-
-.progress-form-container mat-form-field input {
-  color: #fff !important; /* texto blanco visible sobre fondo negro */
+.no-progress {
+  color: #777;
+  font-style: italic;
 }
 
-.progress-form-container mat-form-field .mat-mdc-floating-label {
-  color: #fff !important; /* label blanco */
+/* ================================
+   SNACKBAR personalizado
+================================ */
+
+.custom-snackbar {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  background: transparent !important;
+  color: #d32f2f !important;
+  font-size: 5rem !important;
+  font-weight: 700 !important;
+  text-align: center !important;
+  padding: 0 !important;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  box-shadow: none !important;
+  z-index: 99999 !important;
 }
 
-mat-card-header {
+.custom-snackbar .mat-simple-snackbar {
+  background: transparent !important;
+  color: inherit !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  padding: 0 !important;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 
-.header-actions {
-  display: flex;
-  align-items: center;
-}
 
-.header-actions button {
-  font-size: 1.2rem;
-  line-height: 1;
-}
+
 
 
 
