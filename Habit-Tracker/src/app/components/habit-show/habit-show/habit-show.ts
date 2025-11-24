@@ -186,21 +186,26 @@ export class HabitsShow implements OnInit {
   /** 🔹 Ordenar hábitos */
   /** 🔹 Orden ascendente/descendente */
   orderBy(criteria: string): void {
-    if (this.orderCriteria === criteria) {
-      this.orderDirection = this.orderDirection === 'asc' ? 'desc' : 'asc';
-    } else {
-      this.orderCriteria = criteria;
-      this.orderDirection = 'asc';
-    }
-
-    this.habits.sort((a, b) => {
-      const valA = (a as any)[criteria] || '';
-      const valB = (b as any)[criteria] || '';
-      if (valA < valB) return this.orderDirection === 'asc' ? -1 : 1;
-      if (valA > valB) return this.orderDirection === 'asc' ? 1 : -1;
-      return 0;
-    });
+  if (this.orderCriteria === criteria) {
+    this.orderDirection = this.orderDirection === 'asc' ? 'desc' : 'asc';
+  } else {
+    this.orderCriteria = criteria;
+    this.orderDirection = 'asc';
   }
+
+  const dir = this.orderDirection === 'asc' ? 1 : -1;
+
+  const sorted = [...this.habits].sort((a, b) => {
+    const valA = ((a as any)[criteria] ?? '').toString().toLowerCase();
+    const valB = ((b as any)[criteria] ?? '').toString().toLowerCase();
+    if (valA < valB) return -1 * dir;
+    if (valA > valB) return 1 * dir;
+    return 0;
+  });
+
+  // reasignar para disparar detección de cambios
+  this.habits = sorted;
+}
 
   viewDetails(habit: Habit) {
   this.selectedHabit = habit;
