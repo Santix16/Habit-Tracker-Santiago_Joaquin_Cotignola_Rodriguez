@@ -102,7 +102,7 @@ export class HabitsShow implements OnInit {
       'Debes completar todos los campos obligatorios para crear un hábito.',
       '',
       {
-        duration: 3000,
+        duration: 0,
         horizontalPosition: 'center',
         verticalPosition: 'top',
         panelClass: ['custom-snackbar']
@@ -139,7 +139,7 @@ export class HabitsShow implements OnInit {
         duration: 3000,
         horizontalPosition: 'center',
         verticalPosition: 'top',
-        panelClass: ['custom-snackbar'] 
+        panelClass: ['custom-snackbar']
       });
     }
   });
