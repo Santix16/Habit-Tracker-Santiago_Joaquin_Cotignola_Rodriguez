@@ -102,7 +102,7 @@ export class HabitsShow implements OnInit {
       'Debes completar todos los campos obligatorios para crear un hábito.',
       '',
       {
-        duration: 0,
+        duration: 3000,
         horizontalPosition: 'center',
         verticalPosition: 'top',
         panelClass: ['custom-snackbar']

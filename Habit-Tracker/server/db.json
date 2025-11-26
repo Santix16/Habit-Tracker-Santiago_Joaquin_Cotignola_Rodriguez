@@ -71,6 +71,15 @@
       "status": "In Progress",
       "notes": "Realizar tareas de limpieza cada fin de semana.",
       "progress": []
+    },
+    {
+      "id": "0da4",
+      "name": "kiu",
+      "category": "kiuu",
+      "goalType": "daily",
+      "status": "In Progress",
+      "notes": ",khj,",
+      "progress": []
     }
   ]
 }
