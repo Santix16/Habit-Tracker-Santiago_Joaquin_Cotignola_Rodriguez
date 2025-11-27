@@ -22,7 +22,7 @@
     <div class="progress-form-container">
       <h4>Añadir progreso</h4>
 
-      <form class="progress-form" (ngSubmit)="addProgress()">
+      <form class="progress-form" (ngSubmit)="addProgress()" #progressForm="ngForm">
         <mat-form-field appearance="outline">
           <mat-label>Fecha</mat-label>
           <input
@@ -30,6 +30,7 @@
             [matDatepicker]="picker"
             [(ngModel)]="newProgress.date"
             name="date"
+            required
           >
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
@@ -37,7 +38,7 @@
 
         <mat-form-field appearance="outline">
           <mat-label>Estado</mat-label>
-          <mat-select [(ngModel)]="newProgress.status" name="status">
+          <mat-select [(ngModel)]="newProgress.status" name="status" required>
             <mat-option value="In Progress">En progreso</mat-option>
             <mat-option value="Completed">Completado</mat-option>
             <mat-option value="Paused">Pausado</mat-option>
@@ -56,9 +57,9 @@
     <div class="progress-section mt-3">
       <h4>Historial de Progreso</h4>
 
-      <div class="progress-list" *ngIf="habit.progress.length > 0; else noProgress">
+      <div class="progress-list" *ngIf="habit?.progress && habit.progress.length > 0; else noProgress">
         <div class="progress-item" *ngFor="let prog of habit.progress; let i = index">
-          <span>{{ prog.date | date:'dd/MM/yyyy' }}</span>
+          <span>{{ prog.date }}</span>
           <span>{{ prog.status }}</span>
           <button mat-flat-button color="warn" (click)="deleteProgress(i)">Eliminar</button>
         </div>

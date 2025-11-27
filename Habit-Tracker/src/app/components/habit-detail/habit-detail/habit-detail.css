@@ -18,20 +18,23 @@ mat-card {
   border-radius: 12px;
 }
 
-button.mat-raised-button {
+/* ================================
+   Botones
+================================ */
+
+button.mat-raised-button,
+button.mat-flat-button {
   background-color: #4caf50;
   color: white;
 }
 
-button.mat-raised-button:hover {
+button.mat-raised-button:hover,
+button.mat-flat-button:hover {
   background-color: #388e3c;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
 /* ================================
-   HABIT DETAIL STYLES
+   HABIT DETAIL
 ================================ */
 
 .habit-detail {
@@ -67,7 +70,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 /* ================================
-   Cerrar (X) en la esquina absoluta
+   Cerrar (X)
 ================================ */
 
 .close-btn-fixed {
@@ -92,7 +95,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   margin-bottom: 16px;
 }
 
-/* Inputs visibles y uniformes */
+/* Inputs y selects visibles y uniformes */
 .habit-detail mat-form-field .mat-form-field-flex,
 .habit-detail mat-form-field .mat-input-element,
 .habit-detail mat-select,
@@ -172,6 +175,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   justify-content: center;
   align-items: center;
 }
+
 
 
 

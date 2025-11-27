@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { CommonModule, DatePipe, formatDate } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,7 +14,11 @@ import { HabitService } from '../../../services/habit.service';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, DateAdapter } from '@angular/material/core';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NgForm } from '@angular/forms';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
 
+registerLocaleData(localeEs);
 
 export const MY_DATE_FORMATS = {
   parse: { dateInput: 'dd/MM/yyyy' },
@@ -30,8 +34,17 @@ export const MY_DATE_FORMATS = {
   selector: 'habit-detail',
   standalone: true,
   imports: [
-    CommonModule, FormsModule, MatCardModule, MatButtonModule, MatFormFieldModule,
-    MatInputModule, MatSelectModule, MatProgressBarModule, MatDatepickerModule, RouterModule, DatePipe, MatNativeDateModule
+    CommonModule,
+    FormsModule,
+    MatCardModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatProgressBarModule,
+    MatDatepickerModule,
+    RouterModule,
+    MatNativeDateModule
   ],
   templateUrl: './habit-detail.html',
   styleUrls: ['./habit-detail.css'],
@@ -46,7 +59,8 @@ export class HabitDetail implements OnInit {
   @Output() onDelete = new EventEmitter<Habit>();
   @Output() onEdit = new EventEmitter<Habit>();
 
-  newProgress = { date: new Date(), status: 'Completed' };
+  // newProgress.date debe ser Date para el datepicker
+  newProgress: { date: Date | null; status: 'In Progress' | 'Completed' | 'Paused' } = { date: new Date(), status: 'Completed' };
   dateError: string = '';
 
   constructor(
@@ -55,25 +69,15 @@ export class HabitDetail implements OnInit {
     private adapter: DateAdapter<any>,
     private snackBar: MatSnackBar
   ) {
-    this.adapter.setLocale('es-ES'); // fuerza español
+    this.adapter.setLocale('es-ES');
   }
 
   ngOnInit() {
+    if (!this.habit) this.habit = {} as Habit;
     if (!this.habit.progress) this.habit.progress = [];
-
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-
-    if (!this.habit && id) {
-      this.habitService.getHabitById(String(id)).subscribe(h => {
-        this.habit = h;
-        this.sortProgress();
-      });
-    } else if (this.habit) {
-      this.sortProgress();
-    }
   }
 
-  validateDate(date: Date): boolean {
+  validateDate(date: Date | null): boolean {
     if (!date) return false;
     const selected = new Date(date);
     const today = new Date();
@@ -82,59 +86,98 @@ export class HabitDetail implements OnInit {
     return selected <= today;
   }
 
-  addProgress() {
-    if (!this.habit.progress) this.habit.progress = [];
+  addProgress(form?: NgForm) {
+  this.dateError = '';
 
-    if (!this.newProgress.date || !this.newProgress.status) return;
+  // Prioriza valores del formulario (por si algo falla con ngModel directo)
+  const dateVal: Date | null = form?.value?.date ?? this.newProgress.date;
+  const statusVal: 'In Progress' | 'Completed' | 'Paused' = form?.value?.status ?? this.newProgress.status;
 
-    if (!this.validateDate(this.newProgress.date)) {
-      this.dateError = 'La fecha no puede ser futura.';
-      return;
-    }
-
-    const formattedDate = formatDate(this.newProgress.date, 'dd/MM/yyyy', 'es-ES');
-
-    this.habit.progress.push({
-      date: formattedDate,
-      status: this.newProgress.status as 'In Progress' | 'Completed' | 'Paused'
+  if (!dateVal || !statusVal) {
+    this.dateError = 'Fecha y estado son obligatorios.';
+    this.snackBar.open(this.dateError, '', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      panelClass: ['custom-snackbar']
     });
+    return;
+  }
 
-    this.sortProgress();
+  if (!this.validateDate(dateVal)) {
+    this.dateError = 'La fecha no puede ser futura.';
+    this.snackBar.open(this.dateError, '', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      panelClass: ['custom-snackbar']
+    });
+    return;
+  }
+
+  const formattedDate = formatDate(dateVal, 'dd/MM/yyyy', 'es-ES');
+
+  if (!this.habit.progress) this.habit.progress = [];
+
+  this.habit.progress.push({
+    date: formattedDate,
+    status: statusVal
+  } as any);
+
+  // ordenar (más robusto por si se mezclan strings/Date)
+  this.habit.progress.sort((a: any, b: any) => {
+    const parse = (x: any) => {
+      if (!x) return 0;
+      if (typeof x === 'string') return new Date(x.split('/').reverse().join('-')).getTime();
+      return new Date(x).getTime();
+    };
+    return parse(b.date) - parse(a.date);
+  });
+
+  // reset del formulario y modelo
+  if (form) {
+    form.resetForm({ date: new Date(), status: 'In Progress' });
     this.newProgress = { date: new Date(), status: 'In Progress' };
-    this.dateError = '';
+  } else {
+    this.newProgress = { date: new Date(), status: 'In Progress' };
   }
 
-  sortProgress() {
-    this.habit.progress.sort((a, b) => {
-      const dateA = new Date(a.date.split('/').reverse().join('-'));
-      const dateB = new Date(b.date.split('/').reverse().join('-'));
-      return dateB.getTime() - dateA.getTime();
-    });
-  }
+  this.snackBar.open('Progreso añadido', '', {
+    duration: 3000,
+    horizontalPosition: 'center',
+    verticalPosition: 'top',
+    panelClass: ['custom-snackbar']
+  });
+}
 
   deleteProgress(index: number) {
     this.habit.progress.splice(index, 1);
+
+    this.snackBar.open('Progreso eliminado', '', {
+    duration: 3000,
+    horizontalPosition: 'center',
+    verticalPosition: 'top',
+    panelClass: ['custom-snackbar']
+  });
   }
 
   deleteHabit() {
-  if (!confirm('¿Estás seguro de querer eliminar este hábito?') || !this.habit.id) return;
+    if (!confirm('¿Estás seguro de querer eliminar este hábito?') || !this.habit.id) return;
 
-  this.habitService.deleteHabit(this.habit.id).subscribe({
-    next: () => {
-      this.onDelete.emit(this.habit);
-      this.close();
-
-      // 🔹 Toast de éxito al eliminar
-      this.snackBar.open('Hábito eliminado exitosamente', '', {
-        duration: 3000,
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-        panelClass: ['custom-snackbar'] 
-      });
-    },
-    error: err => console.error('Error al borrar hábito:', err)
-  });
-}
+    this.habitService.deleteHabit(this.habit.id).subscribe({
+      next: () => {
+        this.onDelete.emit(this.habit);
+        this.close();
+        this.snackBar.open('Hábito eliminado exitosamente', '', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: ['custom-snackbar']
+        });
+      },
+      error: err => console.error('Error al borrar hábito:', err)
+    });
+  }
 
   editHabit() {
     this.onEdit.emit(this.habit);
@@ -144,6 +187,7 @@ export class HabitDetail implements OnInit {
     this.onClose.emit();
   }
 }
+
 
 
 
