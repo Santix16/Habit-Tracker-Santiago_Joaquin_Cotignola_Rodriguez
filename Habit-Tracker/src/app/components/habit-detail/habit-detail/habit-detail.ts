@@ -74,6 +74,14 @@ export class HabitDetail implements OnInit {
   ngOnInit() {
     if (!this.habit) this.habit = {} as Habit;
     if (!this.habit.progress) this.habit.progress = [];
+
+    this.habit.progress.sort((a: any, b: any) => {
+    const parseDate = (d: string) => {
+      const [day, month, year] = d.split('/');
+      return new Date(+year, +month - 1, +day).getTime();
+    };
+    return parseDate(b.date) - parseDate(a.date);
+  });
   }
 
   validateDate(date: Date | null): boolean {
@@ -114,6 +122,17 @@ export class HabitDetail implements OnInit {
   const formattedDate = formatDate(dateVal, 'dd/MM/yyyy', 'es-ES');
 
   if (!this.habit.progress) this.habit.progress = [];
+
+  const exists = this.habit.progress.some(p => p.date === formattedDate);
+  if (exists) {
+    this.snackBar.open('Ya existe un progreso para esta fecha en este hábito.', '', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      panelClass: ['custom-snackbar']
+    });
+    return;
+  }
 
   this.habit.progress.push({
     date: formattedDate,

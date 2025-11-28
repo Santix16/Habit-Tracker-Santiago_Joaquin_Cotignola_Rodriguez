@@ -151,7 +151,7 @@ Es el componente principal que organiza la interfaz y conecta los demás compone
 
 Antes de ejecutar la app, asegúrate de tener instalado:
 
-    -Node.js (v16 o superior)
+    -Node.js (v20.19.0 o superior)
 
     -npm (viene con Node)
 

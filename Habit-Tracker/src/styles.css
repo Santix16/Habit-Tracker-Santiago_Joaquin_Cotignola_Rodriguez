@@ -105,8 +105,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* Superficie del snackbar (fondo y bordes) */
 .custom-snackbar .mdc-snackbar__surface {
-  background-color: #4caf50 !important; /* fondo verde */
-  color: white !important;               /* letras blancas */
+  background-color: #92d494 !important; /* fondo verde */
+  color: rgb(24, 23, 23) !important;               /* letras blancas */
   font-weight: bold !important;          /* negrita */
   border-radius: 4px;
   padding: 14px 16px;

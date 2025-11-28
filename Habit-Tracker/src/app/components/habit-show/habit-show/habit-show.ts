@@ -70,14 +70,26 @@ export class HabitsShow implements OnInit {
 
   loadHabits(): void {
     this.habitService
-      .getHabits()
-      .pipe(
-        catchError(err => {
-          console.error('Error cargando hábitos:', err);
-          return of([]);
-        })
-      )
-      .subscribe(data => (this.habits = data));
+    .getHabits()
+    .pipe(
+      catchError(err => {
+        console.error('Error cargando hábitos:', err);
+
+        this.snackBar.open(
+          'No se pudieron cargar los hábitos. Revisa la conexión al servidor.',
+          '',
+          {
+            duration: 0,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: ['custom-snackbar']
+          }
+        );
+
+        return of([]);
+      })
+    )
+    .subscribe(data => (this.habits = data));
   }
 
   private getEmptyHabit(): Habit {
