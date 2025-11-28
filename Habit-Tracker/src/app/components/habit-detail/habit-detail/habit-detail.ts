@@ -164,6 +164,7 @@ export class HabitDetail implements OnInit {
 }
 
   deleteProgress(index: number) {
+    if (!confirm('¿Estás seguro de querer eliminar este progreso?') || !this.habit.id) return;
     this.habit.progress.splice(index, 1);
 
     this.snackBar.open('Progreso eliminado', '', {
