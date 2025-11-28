@@ -94,8 +94,7 @@ export class HabitDetail implements OnInit {
   const statusVal: 'In Progress' | 'Completed' | 'Paused' = form?.value?.status ?? this.newProgress.status;
 
   if (!dateVal || !statusVal) {
-    this.dateError = 'Fecha y estado son obligatorios.';
-    this.snackBar.open(this.dateError, '', {
+    this.snackBar.open('Fecha y estado son obligatorios.', '', {
       duration: 3000,
       horizontalPosition: 'center',
       verticalPosition: 'top',
@@ -105,8 +104,7 @@ export class HabitDetail implements OnInit {
   }
 
   if (!this.validateDate(dateVal)) {
-    this.dateError = 'La fecha no puede ser futura.';
-    this.snackBar.open(this.dateError, '', {
+    this.snackBar.open('La fecha no puede ser futura.', '', {
       duration: 3000,
       horizontalPosition: 'center',
       verticalPosition: 'top',

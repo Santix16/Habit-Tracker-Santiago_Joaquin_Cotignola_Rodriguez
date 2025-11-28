@@ -23,32 +23,34 @@
       <h4>Añadir progreso</h4>
 
       <form class="progress-form" (ngSubmit)="addProgress()" #progressForm="ngForm">
-        <mat-form-field appearance="outline">
-          <mat-label>Fecha</mat-label>
-          <input
-            matInput
-            [matDatepicker]="picker"
-            [(ngModel)]="newProgress.date"
-            name="date"
-            required
-          >
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Fecha</mat-label>
+    <input
+      matInput
+      [matDatepicker]="picker"
+      [(ngModel)]="newProgress.date"
+      name="date"
+      required
+    >
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Estado</mat-label>
-          <mat-select [(ngModel)]="newProgress.status" name="status" required>
-            <mat-option value="In Progress">En progreso</mat-option>
-            <mat-option value="Completed">Completado</mat-option>
-            <mat-option value="Paused">Pausado</mat-option>
-          </mat-select>
-        </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Estado</mat-label>
+    <mat-select [(ngModel)]="newProgress.status" name="status" required>
+      <mat-option value="In Progress">En progreso</mat-option>
+      <mat-option value="Completed">Completado</mat-option>
+      <mat-option value="Paused">Pausado</mat-option>
+    </mat-select>
+  </mat-form-field>
 
-        <button mat-flat-button color="accent" type="submit">
-          Añadir progreso
-        </button>
-      </form>
+  <button mat-flat-button color="accent" type="submit">
+    Añadir progreso
+  </button>
+
+</form>
+
 
       <p *ngIf="dateError" class="error-message">{{ dateError }}</p>
     </div>
