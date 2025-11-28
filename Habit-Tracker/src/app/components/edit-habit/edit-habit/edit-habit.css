@@ -7,3 +7,22 @@
 .full-width {
   width: 100%;
 }
+
+.habit-edit-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.habit-edit-info .field {
+  width: 100%;
+}
+
+.habit-edit-info .field:nth-child(5),
+.habit-edit-info .field:nth-child(6) {
+  grid-column: 1 / -1; /* que ocupen todo el ancho */
+}
+
+:host ::ng-deep .habit-edit-card mat-card-title {
+  color: white;
+}

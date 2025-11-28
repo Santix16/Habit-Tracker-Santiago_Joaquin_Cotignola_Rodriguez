@@ -59,7 +59,6 @@ export class HabitDetail implements OnInit {
   @Output() onDelete = new EventEmitter<Habit>();
   @Output() onEdit = new EventEmitter<Habit>();
 
-  // newProgress.date debe ser Date para el datepicker
   newProgress: { date: Date | null; status: 'In Progress' | 'Completed' | 'Paused' } = { date: new Date(), status: 'Completed' };
   dateError: string = '';
 
@@ -89,7 +88,6 @@ export class HabitDetail implements OnInit {
   addProgress(form?: NgForm) {
   this.dateError = '';
 
-  // Prioriza valores del formulario (por si algo falla con ngModel directo)
   const dateVal: Date | null = form?.value?.date ?? this.newProgress.date;
   const statusVal: 'In Progress' | 'Completed' | 'Paused' = form?.value?.status ?? this.newProgress.status;
 
@@ -122,7 +120,6 @@ export class HabitDetail implements OnInit {
     status: statusVal
   } as any);
 
-  // ordenar (más robusto por si se mezclan strings/Date)
   this.habit.progress.sort((a: any, b: any) => {
     const parse = (x: any) => {
       if (!x) return 0;
@@ -132,7 +129,6 @@ export class HabitDetail implements OnInit {
     return parse(b.date) - parse(a.date);
   });
 
-  // reset del formulario y modelo
   if (form) {
     form.resetForm({ date: new Date(), status: 'In Progress' });
     this.newProgress = { date: new Date(), status: 'In Progress' };

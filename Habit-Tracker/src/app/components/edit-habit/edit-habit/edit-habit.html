@@ -1,41 +1,53 @@
-<mat-card class="habit-edit-card">
-  <mat-card-title>Editar hábito: "{{ habit.name }}"</mat-card-title>
+<mat-card class="habit-edit-card" appearance="outlined">
+  <mat-card-title style="color: white;">Editar hábito: "{{ habit.name }}"</mat-card-title>
+  <p></p>
 
   <mat-card-content>
-    <form class="edit-form">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Nombre</mat-label>
-        <input matInput [(ngModel)]="habit.name" name="name">
-      </mat-form-field>
+    <div class="habit-edit-info">
+      <div class="field">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nombre</mat-label>
+          <input matInput [(ngModel)]="habit.name" name="name">
+        </mat-form-field>
+      </div>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Categoría</mat-label>
-        <input matInput [(ngModel)]="habit.category" name="category">
-      </mat-form-field>
+      <div class="field">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Categoría</mat-label>
+          <input matInput [(ngModel)]="habit.category" name="category">
+        </mat-form-field>
+      </div>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Tipo</mat-label>
-        <mat-select [(ngModel)]="habit.goalType" name="goalType">
-          <mat-option value="daily">Diario</mat-option>
-          <mat-option value="weekly">Semanal</mat-option>
-          <mat-option value="monthly">Mensual</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div class="field">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Tipo</mat-label>
+          <mat-select [(ngModel)]="habit.goalType" name="goalType">
+            <mat-option value="daily">Diario</mat-option>
+            <mat-option value="weekly">Semanal</mat-option>
+            <mat-option value="monthly">Mensual</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Estado</mat-label>
-        <mat-select [(ngModel)]="habit.status" name="status">
-          <mat-option value="In Progress">En progreso</mat-option>
-          <mat-option value="Completed">Completado</mat-option>
-          <mat-option value="Paused">Pausado</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div class="field">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Estado</mat-label>
+          <mat-select [(ngModel)]="habit.status" name="status">
+            <mat-option value="In Progress">En progreso</mat-option>
+            <mat-option value="Completed">Completado</mat-option>
+            <mat-option value="Paused">Pausado</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Notas</mat-label>
-        <textarea matInput [(ngModel)]="habit.notes" name="notes"></textarea>
-      </mat-form-field>
-    </form>
+      <div class="field">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Notas</mat-label>
+          <textarea matInput [(ngModel)]="habit.notes" name="notes"></textarea>
+        </mat-form-field>
+      </div>
+
+    </div>
   </mat-card-content>
 
   <mat-card-actions>
@@ -43,6 +55,7 @@
     <button mat-flat-button color="warn" (click)="cancel()">Cancelar</button>
   </mat-card-actions>
 </mat-card>
+
 
 
 

@@ -68,7 +68,6 @@ export class HabitsShow implements OnInit {
   }
 
 
-  /** 🔹 Cargar hábitos desde el servicio */
   loadHabits(): void {
     this.habitService
       .getHabits()
@@ -81,7 +80,6 @@ export class HabitsShow implements OnInit {
       .subscribe(data => (this.habits = data));
   }
 
-  /** 🔹 Crear un hábito vacío */
   private getEmptyHabit(): Habit {
     return {
       id: '',
@@ -134,7 +132,6 @@ export class HabitsShow implements OnInit {
       this.newHabit = this.getEmptyHabit();
       this.showNewHabitForm = false;
 
-      // 🔹 Toast de éxito
       this.snackBar.open('Hábito creado exitosamente', '', {
         duration: 3000,
         horizontalPosition: 'center',
@@ -146,7 +143,6 @@ export class HabitsShow implements OnInit {
 }
 
 
-  /** 🔹 Eliminar hábito */
   deleteHabit(habitToDelete: Habit): void {
     if (!habitToDelete.id) return;
 
@@ -163,24 +159,20 @@ export class HabitsShow implements OnInit {
       });
   }
 
-  /** 🔹 Obtener categorías únicas */
   getUniqueCategories(): string[] {
     return [...new Set(this.habits.map(h => h.category))];
   }
 
-  /** 🔹 Obtener tipos únicos */
   getUniqueTypes(): string[] {
     return [...new Set(this.habits.map(h => h.goalType))];
   }
 
-  /** 🔹 Limpiar filtros */
   clearFilters(): void {
     this.search = '';
     this.filterCategory = '';
     this.filterType = '';
   }
 
-  /** 🔹 Filtrar hábitos */
   filteredHabits(): Habit[] {
     return this.habits.filter(habit => {
       const matchesSearch = habit.name.toLowerCase().includes(this.search.toLowerCase());
@@ -190,8 +182,6 @@ export class HabitsShow implements OnInit {
     });
   }
 
-  /** 🔹 Ordenar hábitos */
-  /** 🔹 Orden ascendente/descendente */
   orderBy(criteria: string): void {
   if (this.orderCriteria === criteria) {
     this.orderDirection = this.orderDirection === 'asc' ? 'desc' : 'asc';
@@ -210,7 +200,6 @@ export class HabitsShow implements OnInit {
     return 0;
   });
 
-  // reasignar para disparar detección de cambios
   this.habits = sorted;
 }
 
@@ -222,13 +211,12 @@ closeDetails() {
   this.selectedHabit = null;
 }
 
-  /** 🔹 TrackBy seguro */
   trackById(index: number, habit: Habit): string | number {
     return habit.id ?? index;
   }
 
   openEdit(habit: any) {
-  this.editingHabit = { ...habit }; // copia para edición segura
+  this.editingHabit = { ...habit };
   }
 
   closeEdit() {

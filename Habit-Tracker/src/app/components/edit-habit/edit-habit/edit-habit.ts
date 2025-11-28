@@ -7,6 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { Habit } from '../../../interfaces/Habit';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-edit-habit',
@@ -17,7 +18,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatButtonModule
+    MatButtonModule,
+    CommonModule
   ],
   templateUrl: './edit-habit.html'
 })
@@ -30,6 +32,8 @@ export class EditHabit {
   constructor(private snackBar: MatSnackBar) {}
 
   save() {
+    if (!confirm('¿Estás seguro de querer actualizar este hábito?')) return;
+
     this.onSave.emit(this.habit); 
 
     this.snackBar.open('Hábito actualizado exitosamente', '', {
