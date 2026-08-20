@@ -21,20 +21,26 @@ import { CommonModule } from '@angular/common';
     MatButtonModule,
     CommonModule
   ],
-  templateUrl: './edit-habit.html'
+  templateUrl: './edit-habit.html',
+  styleUrls: ['./edit-habit.css']
 })
 export class EditHabit {
 
   @Input() habit!: Habit;
-  @Output() onClose = new EventEmitter<void>();
-  @Output() onSave = new EventEmitter<Habit>();
+  @Output() readonly editorClosed = new EventEmitter<void>();
+  @Output() readonly habitSaved = new EventEmitter<Habit>();
+  showConfirmation = false;
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(private readonly snackBar: MatSnackBar) {}
 
   save() {
-    if (!confirm('¿Estás seguro de querer actualizar este hábito?')) return;
+    this.showConfirmation = true;
+  }
 
-    this.onSave.emit(this.habit); 
+  confirmSave() {
+    this.showConfirmation = false;
+
+    this.habitSaved.emit(this.habit);
 
     this.snackBar.open('Hábito actualizado exitosamente', '', {
     duration: 3000,
@@ -44,8 +50,12 @@ export class EditHabit {
   });
   }
 
+  cancelSave() {
+    this.showConfirmation = false;
+  }
+
   cancel() {
-    this.onClose.emit(); 
+    this.editorClosed.emit();
   }
 }
 

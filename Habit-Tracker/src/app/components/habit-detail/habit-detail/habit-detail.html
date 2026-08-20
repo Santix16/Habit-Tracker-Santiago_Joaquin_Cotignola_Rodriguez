@@ -1,6 +1,6 @@
 <mat-card class="habit-detail">
 
-  <div class="close-btn-fixed" (click)="close()">✕</div>
+  <button type="button" class="close-btn-fixed" aria-label="Cerrar detalles" (click)="close()">✕</button>
 
   <mat-card-header>
     <mat-card-title>Detalles Hábito: "{{ habit.name }}"</mat-card-title>
@@ -8,9 +8,9 @@
 
   <mat-card-content>
     <div class="info-section">
-      <div class="info-item"><strong>Tipo:</strong> {{ habit.goalType }}</div>
+      <div class="info-item"><strong>Tipo:</strong> {{ habit.goalType === 'daily' ? 'Diario' : habit.goalType === 'weekly' ? 'Semanal' : 'Mensual' }}</div>
       <div class="info-item"><strong>Categoría:</strong> {{ habit.category }}</div>
-      <div class="info-item"><strong>Estado:</strong> {{ habit.status }}</div>
+      <div class="info-item"><strong>Estado:</strong> {{ habit.status === 'In Progress' ? 'En progreso' : habit.status === 'Completed' ? 'Completado' : 'Pausado' }}</div>
     </div>
 
     <div class="notes">
@@ -23,12 +23,14 @@
 
       <form class="progress-form" (ngSubmit)="addProgress()" #progressForm="ngForm">
   <mat-form-field appearance="outline">
+    <label class="visually-hidden" for="progress-date">Fecha</label>
     <mat-label>Fecha</mat-label>
     <input
       matInput
       [matDatepicker]="picker"
       [(ngModel)]="newProgress.date"
       name="date"
+      id="progress-date"
       required
     >
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -57,10 +59,10 @@
     <div class="progress-section mt-3">
       <h4>Historial de Progreso</h4>
 
-      <div class="progress-list" *ngIf="habit?.progress && habit.progress.length > 0; else noProgress">
+      <div class="progress-list" *ngIf="habit.progress.length > 0; else noProgress">
         <div class="progress-item" *ngFor="let prog of habit.progress; let i = index">
           <span>{{ prog.date }}</span>
-          <span>{{ prog.status }}</span>
+          <span>{{ prog.status === 'In Progress' ? 'En progreso' : prog.status === 'Completed' ? 'Completado' : 'Pausado' }}</span>
           <button mat-flat-button color="warn" (click)="deleteProgress(i)">Eliminar</button>
         </div>
       </div>
@@ -72,10 +74,22 @@
   </mat-card-content>
 
   <mat-card-actions align="end">
-    <button mat-button color="primary" (click)="onEdit.emit(habit)">Editar</button>
+    <button mat-button color="primary" (click)="editRequested.emit(habit)">Editar</button>
     <button mat-stroked-button color="warn" (click)="deleteHabit()">Borrar</button>
   </mat-card-actions>
 </mat-card>
+
+<div class="delete-confirmation-backdrop" *ngIf="showDeleteConfirmation">
+  <section class="delete-confirmation-dialog" role="alertdialog" aria-modal="true" aria-labelledby="delete-confirmation-title">
+    <div class="delete-confirmation-icon" aria-hidden="true">!</div>
+    <h2 id="delete-confirmation-title">¿Eliminar hábito?</h2>
+    <p>¿Estás seguro de querer eliminar este hábito?</p>
+    <div class="delete-confirmation-actions">
+      <button type="button" class="delete-cancel-button" (click)="cancelDeleteHabit()">Cancelar</button>
+      <button type="button" class="delete-confirm-button" (click)="confirmDeleteHabit()">Eliminar</button>
+    </div>
+  </section>
+</div>
 
 
 

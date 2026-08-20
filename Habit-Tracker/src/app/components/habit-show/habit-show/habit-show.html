@@ -7,18 +7,18 @@
 <form *ngIf="showNewHabitForm" #form="ngForm" class="mt-4" (ngSubmit)="addHabit(newHabit)" novalidate>
 
   <div class="mb-3">
-    <label class="form-label">Nombre del hábito (obligatorio)</label>
-    <input type="text" class="form-control" name="name" [(ngModel)]="newHabit.name" required maxlength="50">
+    <label class="form-label" for="new-habit-name">Nombre del hábito (obligatorio)</label>
+    <input id="new-habit-name" type="text" class="form-control" name="name" [(ngModel)]="newHabit.name" required maxlength="50">
   </div>
 
   <div class="mb-3">
-    <label class="form-label">Categoría (obligatorio)</label>
-    <input type="text" class="form-control" name="category" [(ngModel)]="newHabit.category" required>
+    <label class="form-label" for="new-habit-category">Categoría (obligatorio)</label>
+    <input id="new-habit-category" type="text" class="form-control" name="category" [(ngModel)]="newHabit.category" required>
   </div>
 
   <div class="mb-3">
-    <label class="form-label">Tipo de objetivo</label>
-    <select class="form-select" name="goalType" [(ngModel)]="newHabit.goalType" required>
+    <label class="form-label" for="new-habit-goal-type">Tipo de objetivo</label>
+    <select id="new-habit-goal-type" class="form-select" name="goalType" [(ngModel)]="newHabit.goalType" required>
       <option value="daily">Diario</option>
       <option value="weekly">Semanal</option>
       <option value="monthly">Mensual</option>
@@ -26,8 +26,8 @@
   </div>
 
   <div class="mb-3">
-    <label class="form-label">Estado</label>
-    <select class="form-select" name="status" [(ngModel)]="newHabit.status" required>
+    <label class="form-label" for="new-habit-status">Estado</label>
+    <select id="new-habit-status" class="form-select" name="status" [(ngModel)]="newHabit.status" required>
       <option value="In Progress">En progreso</option>
       <option value="Completed">Completado</option>
       <option value="Paused">Pausado</option>
@@ -35,8 +35,8 @@
   </div>
 
   <div class="mb-3">
-    <label class="form-label">Notas</label>
-    <textarea class="form-control" name="notes" [(ngModel)]="newHabit.notes" maxlength="200" rows="3"></textarea>
+    <label class="form-label" for="new-habit-notes">Notas</label>
+    <textarea id="new-habit-notes" class="form-control" name="notes" [(ngModel)]="newHabit.notes" maxlength="200" rows="3"></textarea>
   </div>
 
   <button type="submit" class="btn btn-primary">Crear hábito</button>
@@ -48,18 +48,20 @@
 
   <div class="row g-3 align-items-end">
     <div class="col-md-4">
-      <label class="form-label">Categoría</label>
-      <select class="form-select" [(ngModel)]="filterCategory">
+      <label class="form-label" for="filter-category">Categoría</label>
+      <select id="filter-category" class="form-select" [(ngModel)]="filterCategory">
         <option value="">Todas</option>
         <option *ngFor="let cat of getUniqueCategories()" [value]="cat">{{ cat }}</option>
       </select>
     </div>
 
     <div class="col-md-4">
-      <label class="form-label">Tipo</label>
-      <select class="form-select" [(ngModel)]="filterType">
+      <label class="form-label" for="filter-type">Tipo</label>
+      <select id="filter-type" class="form-select" [(ngModel)]="filterType">
         <option value="">Todos</option>
-        <option *ngFor="let type of getUniqueTypes()" [value]="type">{{ type }}</option>
+        <option *ngFor="let type of getUniqueTypes()" [value]="type">
+          {{ type === 'daily' ? 'Diario' : type === 'weekly' ? 'Semanal' : 'Mensual' }}
+        </option>
       </select>
     </div>
 
@@ -71,7 +73,8 @@
   </div>
 
   <div class="mt-3">
-    <input type="text" class="form-control" [(ngModel)]="search" placeholder="Buscar hábito..." />
+    <label class="visually-hidden" for="habit-search">Buscar hábito</label>
+    <input id="habit-search" type="text" class="form-control" [(ngModel)]="search" placeholder="Buscar hábito..." />
   </div>
 </div>
 
@@ -102,9 +105,9 @@
     <div class="fullscreen-content">
       <habit-detail
         [habit]="selectedHabit"
-        (onClose)="closeDetails()"
-        (onDelete)="deleteHabit($event)"
-        (onEdit)="openEdit($event)">
+        (detailClosed)="closeDetails()"
+        (habitDeleted)="deleteHabit($event)"
+        (editRequested)="openEdit($event)">
       </habit-detail>
     </div>
   </div>
@@ -113,8 +116,8 @@
   <div class="fullscreen-content">
     <app-edit-habit
        [habit]="editingHabit"
-       (onClose)="closeEdit()"
-       (onSave)="saveHabit($event)">
+         (editorClosed)="closeEdit()"
+           (habitSaved)="saveHabit($event)">
     </app-edit-habit>
   </div>
 </div>

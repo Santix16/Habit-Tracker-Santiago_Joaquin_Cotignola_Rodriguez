@@ -1,48 +1,54 @@
 .habit-card {
-  border-radius: 16px;
-  padding: 8px;
-  transition: all 0.2s ease-in-out;
-  background-color: #ffffff;
+  height: 100%;
+  border: 1px solid var(--line) !important;
+  border-radius: 14px !important;
+  padding: 0.5rem;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+  background: var(--surface);
+  box-shadow: 0 8px 24px rgba(25, 51, 45, 0.06);
 }
 
 .habit-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+  box-shadow: var(--shadow);
 }
 
-.habit-icon {
-  background-color: #e3f2fd;
-  color: #1976d2;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.habit-card mat-card-header {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.9rem;
 }
 
-.habit-details {
-  font-size: 0.95rem;
-  color: #333;
-  margin-top: 8px;
+.habit-card mat-card-title {
+  color: var(--ink);
+  font-size: 1.15rem;
+  font-weight: 700;
 }
 
-.habit-details p {
-  margin: 4px 0;
+.habit-info {
+  min-height: 150px;
+  padding-top: 0.75rem;
+  color: var(--muted);
+  font-size: 0.92rem;
 }
 
-.status-inprogress {
-  color: #1976d2;
-  font-weight: 600;
-}
+.habit-info p { margin: 0.65rem 0; }
+.habit-info strong { color: var(--ink); }
 
-.status-completed {
-  color: #2e7d32;
-  font-weight: 600;
-}
-
+.status-inprogress,
+.status-completed,
 .status-paused {
-  color: #ff9800;
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
   font-weight: 600;
 }
+
+.status-inprogress { color: #176b55; background: #dff2e8; }
+.status-completed { color: #236b3d; background: #d9f0d4; }
+.status-paused { color: #a5571f; background: #ffead2; }
+
+.actions { padding-top: 0.85rem; }
+.actions button { border-radius: 999px; }
 
 mat-card-actions {
   display: flex;

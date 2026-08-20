@@ -23,6 +23,134 @@
   grid-column: 1 / -1; /* que ocupen todo el ancho */
 }
 
+.habit-edit-card {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1.25rem;
+  border: 0 !important;
+  border-radius: 16px !important;
+  background: var(--surface);
+}
+
+.habit-edit-card mat-card-title {
+  color: var(--ink) !important;
+  font-size: 1.35rem;
+  margin-bottom: 1rem;
+}
+
+.habit-edit-card mat-form-field { width: 100%; }
+
+.habit-edit-card mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  padding-top: 1rem;
+}
+
+.habit-edit-card button { border-radius: 999px; }
+
+.habit-edit-card mat-card-content {
+  padding: 0.5rem 0;
+}
+
+.habit-edit-card mat-card-actions button:first-child {
+  background: var(--primary) !important;
+  color: #fff !important;
+}
+
+.habit-edit-card mat-card-actions button:last-child {
+  --mdc-filled-button-container-color: #a83232;
+  --mdc-filled-button-label-text-color: #ffffff;
+  background: #a83232 !important;
+  color: #ffffff !important;
+}
+
+:host ::ng-deep .habit-edit-card mat-card-actions button:last-child .mdc-button__label {
+  color: #ffffff !important;
+}
+
 :host ::ng-deep .habit-edit-card mat-card-title {
-  color: white;
+  color: var(--ink) !important;
+}
+
+.confirmation-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(25, 51, 45, 0.62);
+  backdrop-filter: blur(4px);
+}
+
+.confirmation-dialog {
+  width: min(390px, 100%);
+  padding: 1.75rem;
+  border: 1px solid #d5e7da;
+  border-radius: 18px;
+  background: #fffdf9;
+  box-shadow: 0 22px 60px rgba(25, 51, 45, 0.25);
+  color: var(--ink);
+  text-align: center;
+}
+
+.confirmation-icon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  margin: 0 auto 0.8rem;
+  place-items: center;
+  border-radius: 50%;
+  background: #fff0e7;
+  color: #a84b32;
+  font-size: 1.45rem;
+  font-weight: 700;
+}
+
+.confirmation-dialog h2 {
+  margin: 0;
+  color: #174f42;
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+  font-size: 1.3rem;
+}
+
+.confirmation-dialog p {
+  margin: 0.7rem 0 1.4rem;
+  color: #65756f;
+}
+
+.confirmation-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.7rem;
+}
+
+.confirmation-actions button {
+  min-width: 110px;
+  padding: 0.65rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+}
+
+.confirmation-cancel {
+  background: #edf4ef;
+  color: #31584d;
+}
+
+.confirmation-confirm {
+  background: var(--primary);
+  color: #fff;
+}
+
+@media (max-width: 430px) {
+  .confirmation-actions { flex-direction: column-reverse; }
+  .confirmation-actions button { width: 100%; }
+}
+
+@media (max-width: 600px) {
+  .habit-edit-info { grid-template-columns: 1fr; }
 }

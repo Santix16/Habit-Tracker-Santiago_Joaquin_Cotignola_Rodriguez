@@ -5,9 +5,11 @@
 
   <mat-card-content>
     <div class="habit-info">
-      <p><strong>Categoria:</strong> {{ habit.category | titlecase }}</p>
+      <p><strong>Categoría:</strong> {{ habit.category | titlecase }}</p>
 
-      <p><strong>Tipo:</strong> {{ habit.goalType | titlecase }}</p>
+      <p><strong>Tipo:</strong>
+        {{ habit.goalType === 'daily' ? 'Diario' : habit.goalType === 'weekly' ? 'Semanal' : 'Mensual' }}
+      </p>
 
       <p>
         <strong>Estado:</strong>
@@ -18,7 +20,7 @@
             'status-paused': habit.status === 'Paused'
           }"
         >
-          {{ habit.status }}
+          {{ habit.status === 'In Progress' ? 'En progreso' : habit.status === 'Completed' ? 'Completado' : 'Pausado' }}
         </span>
       </p>
 
@@ -26,10 +28,10 @@
         <strong>Notas:</strong> {{ habit.notes }}
       </p>
 
-      <p *ngIf="habit.progress?.length">
+      <p *ngIf="habit.progress.length">
         <strong>Último progreso:</strong>
         {{ habit.progress[habit.progress.length - 1].date }} -
-        {{ habit.progress[habit.progress.length - 1].status }}
+        {{ habit.progress[habit.progress.length - 1].status === 'In Progress' ? 'En progreso' : habit.progress[habit.progress.length - 1].status === 'Completed' ? 'Completado' : 'Pausado' }}
       </p>
     </div>
   </mat-card-content>

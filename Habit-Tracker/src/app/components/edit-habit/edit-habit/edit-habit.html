@@ -1,20 +1,22 @@
 <mat-card class="habit-edit-card" appearance="outlined">
-  <mat-card-title style="color: white;">Editar hábito: "{{ habit.name }}"</mat-card-title>
+  <mat-card-title>Editar hábito: "{{ habit.name }}"</mat-card-title>
   <p></p>
 
   <mat-card-content>
     <div class="habit-edit-info">
       <div class="field">
         <mat-form-field appearance="outline" class="full-width">
+          <label class="visually-hidden" for="habit-name">Nombre</label>
           <mat-label>Nombre</mat-label>
-          <input matInput [(ngModel)]="habit.name" name="name">
+          <input id="habit-name" matInput [(ngModel)]="habit.name" name="name">
         </mat-form-field>
       </div>
 
       <div class="field">
         <mat-form-field appearance="outline" class="full-width">
+          <label class="visually-hidden" for="habit-category">Categoría</label>
           <mat-label>Categoría</mat-label>
-          <input matInput [(ngModel)]="habit.category" name="category">
+          <input id="habit-category" matInput [(ngModel)]="habit.category" name="category">
         </mat-form-field>
       </div>
 
@@ -42,8 +44,9 @@
 
       <div class="field">
         <mat-form-field appearance="outline" class="full-width">
+          <label class="visually-hidden" for="habit-notes">Notas</label>
           <mat-label>Notas</mat-label>
-          <textarea matInput [(ngModel)]="habit.notes" name="notes"></textarea>
+          <textarea id="habit-notes" matInput [(ngModel)]="habit.notes" name="notes"></textarea>
         </mat-form-field>
       </div>
 
@@ -55,6 +58,18 @@
     <button mat-flat-button color="warn" (click)="cancel()">Cancelar</button>
   </mat-card-actions>
 </mat-card>
+
+<div class="confirmation-backdrop" *ngIf="showConfirmation">
+  <section class="confirmation-dialog" role="alertdialog" aria-modal="true" aria-labelledby="confirmation-title">
+    <div class="confirmation-icon" aria-hidden="true">?</div>
+    <h2 id="confirmation-title">¿Actualizar hábito?</h2>
+    <p>¿Estás seguro de querer actualizar este hábito?</p>
+    <div class="confirmation-actions">
+      <button type="button" class="confirmation-cancel" (click)="cancelSave()">Volver</button>
+      <button type="button" class="confirmation-confirm" (click)="confirmSave()">Actualizar</button>
+    </div>
+  </section>
+</div>
 
 
 

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { CommonModule, formatDate } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { CommonModule, formatDate, registerLocaleData } from '@angular/common';
+import { FormsModule, NgForm } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,14 +8,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { Habit } from '../../../interfaces/Habit';
 import { HabitService } from '../../../services/habit.service';
-import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, DateAdapter } from '@angular/material/core';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, DateAdapter, MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { NgForm } from '@angular/forms';
-import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 
 registerLocaleData(localeEs);
@@ -55,18 +52,18 @@ export const MY_DATE_FORMATS = {
 })
 export class HabitDetail implements OnInit {
   @Input() habit!: Habit;
-  @Output() onClose = new EventEmitter<void>();
-  @Output() onDelete = new EventEmitter<Habit>();
-  @Output() onEdit = new EventEmitter<Habit>();
+  @Output() readonly detailClosed = new EventEmitter<void>();
+  @Output() readonly habitDeleted = new EventEmitter<Habit>();
+  @Output() readonly editRequested = new EventEmitter<Habit>();
 
   newProgress: { date: Date | null; status: 'In Progress' | 'Completed' | 'Paused' } = { date: new Date(), status: 'Completed' };
   dateError: string = '';
+  showDeleteConfirmation = false;
 
   constructor(
-    private route: ActivatedRoute,
-    private habitService: HabitService,
-    private adapter: DateAdapter<any>,
-    private snackBar: MatSnackBar
+    private readonly habitService: HabitService,
+    private readonly adapter: DateAdapter<any>,
+    private readonly snackBar: MatSnackBar
   ) {
     this.adapter.setLocale('es-ES');
   }
@@ -176,11 +173,17 @@ export class HabitDetail implements OnInit {
   }
 
   deleteHabit() {
-    if (!confirm('¿Estás seguro de querer eliminar este hábito?') || !this.habit.id) return;
+    if (!this.habit.id) return;
+    this.showDeleteConfirmation = true;
+  }
+
+  confirmDeleteHabit() {
+    if (!this.habit.id) return;
+    this.showDeleteConfirmation = false;
 
     this.habitService.deleteHabit(this.habit.id).subscribe({
       next: () => {
-        this.onDelete.emit(this.habit);
+        this.habitDeleted.emit(this.habit);
         this.close();
         this.snackBar.open('Hábito eliminado exitosamente', '', {
           duration: 3000,
@@ -193,12 +196,16 @@ export class HabitDetail implements OnInit {
     });
   }
 
+  cancelDeleteHabit() {
+    this.showDeleteConfirmation = false;
+  }
+
   editHabit() {
-    this.onEdit.emit(this.habit);
+    this.editRequested.emit(this.habit);
   }
 
   close() {
-    this.onClose.emit();
+    this.detailClosed.emit();
   }
 }
 

@@ -1,131 +1,54 @@
-/* Importar temas y Bootstrap */
-@import '@angular/material/prebuilt-themes/purple-green.css';
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
 @import 'bootstrap/dist/css/bootstrap.min.css';
 
-/* Extras para Habit Tracker */
+:root {
+  --ink: #19332d;
+  --muted: #65756f;
+  --surface: #ffffff;
+  --surface-soft: #f2f7f3;
+  --line: #dce8df;
+  --primary: #176b55;
+  --primary-dark: #0d4e3e;
+  --accent: #e8785b;
+  --shadow: 0 18px 45px rgba(25, 51, 45, 0.09);
+}
+
+html,
+body { min-height: 100%; }
+
 body {
-  font-family: 'Roboto', sans-serif;
-  background-color: #f4f6f5;
+  margin: 0;
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 90% 0%, rgba(232, 120, 91, 0.12), transparent 28rem),
+    linear-gradient(135deg, #f7fbf7 0%, #edf5ef 100%);
 }
 
 mat-toolbar {
-  background-color: #43a047;
-  color: white;
+  min-height: 76px;
+  background: var(--primary-dark) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 18px rgba(13, 78, 62, 0.2);
 }
 
-mat-card {
-  margin: 1rem;
-  border-radius: 12px;
+.navbar-brand {
+  font-size: clamp(1.35rem, 3vw, 1.8rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
-button.mat-raised-button {
-  background-color: #4caf50;
-  color: white;
+button.mat-mdc-unelevated-button,
+button.mat-mdc-raised-button {
+  --mdc-filled-button-container-color: var(--primary);
+  --mdc-filled-button-label-text-color: #fff;
 }
 
-button.mat-raised-button:hover {
-  background-color: #388e3c;
-}
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-/* Estilos de HabitDetailComponent (antes detail.css) */
-.habit-detail {
-  padding: 16px;
-  border-radius: 12px;
-  background-color: #fff;
-}
-
-.actions {
-  display: flex;
-  gap: 8px;
-  margin-left: auto;
-}
-
-.info-section {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
-}
-
-.info-item {
-  flex: 1 1 30%;
-  font-size: 0.95rem;
-  margin-bottom: 6px;
-}
-
-.notes {
-  background: #f9f9f9;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
-
-.progress-section {
-  border-top: 1px solid #ddd;
-  padding-top: 10px;
-}
-
-.progress-form {
-  display: flex;
-  gap: 10px;
-  align-items: flex-end;
-  margin-bottom: 16px;
-}
-
-.progress-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.progress-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #f5f5f5;
-  border-radius: 6px;
-  padding: 6px 10px;
-}
-
-.no-progress {
-  color: #888;
-  font-style: italic;
-}
-
-/* Contenedor principal del snackbar */
-.custom-snackbar .mat-mdc-snack-bar-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0; /* opcional, ya que la superficie tendrá padding */
-}
-
-/* Superficie del snackbar (fondo y bordes) */
 .custom-snackbar .mdc-snackbar__surface {
-  background-color: #92d494 !important; /* fondo verde */
-  color: rgb(24, 23, 23) !important;               /* letras blancas */
-  font-weight: bold !important;          /* negrita */
-  border-radius: 4px;
-  padding: 14px 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 95vw; /* evita que se salga en móviles */
-  box-sizing: border-box;
-}
-
-/* Etiqueta de texto interna */
-.custom-snackbar .mdc-snackbar__label {
-  font-weight: bold !important;
-  color: inherit !important;
-  text-align: center;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-  max-height: 50vh; /* evita que se corte verticalmente */
-  overflow: auto;
+  background: var(--ink) !important;
+  color: #fff !important;
+  border-radius: 10px;
+  padding: 12px 16px;
 }
 
 

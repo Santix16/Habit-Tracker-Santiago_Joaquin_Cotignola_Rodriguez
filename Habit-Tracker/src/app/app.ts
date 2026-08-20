@@ -19,7 +19,7 @@ import { HabitsShow } from './components/habit-show/habit-show/habit-show';
   styleUrls: ['./app.css']
 })
 export class App {
-  protected readonly title = signal('Habit Tracker');
+  protected readonly title = signal('Seguimiento de hábitos');
 }
 
 
